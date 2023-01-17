@@ -1,0 +1,450 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is wismed v-hub backend-api server. Updated@ 2022-09-15T09:29:03+10:00",
+        "title": "WISMED Vhub API",
+        "contact": {
+            "name": "API Support"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "127.0.0.1:1323",
+    "paths": {
+        "/api/admin/email": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "unique user names, separator is ',' ",
+                        "name": "unames",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "subject for email",
+                        "name": "subject",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "body for email",
+                        "name": "body",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - list successfully"
+                    },
+                    "401": {
+                        "description": "Fail - unauthorized error"
+                    },
+                    "403": {
+                        "description": "Fail - forbidden error"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
+        "/api/admin/user/list/{fields}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "list users' info",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user filter with uname wildcard(*)",
+                        "name": "uname",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "user filter with name wildcard(*)",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "user filter with active status",
+                        "name": "active",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "which user's fields (sep by ',') want to list. if empty, return all fields",
+                        "name": "fields",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - list successfully"
+                    },
+                    "401": {
+                        "description": "Fail - unauthorized error"
+                    },
+                    "403": {
+                        "description": "Fail - forbidden error"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
+        "/api/admin/user/onlines": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "get all online users",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user filter with uname wildcard(*)",
+                        "name": "uname",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - list successfully"
+                    },
+                    "401": {
+                        "description": "Fail - unauthorized error"
+                    },
+                    "403": {
+                        "description": "Fail - forbidden error"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
+        "/api/admin/user/update/{fields}": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "update user's info by fields \u0026 its values",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "unique user name want to be updated",
+                        "name": "uname",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "which user struct fields (sep by ',') want to be updated. (fields must be identical to struct fields)",
+                        "name": "fields",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - list successfully"
+                    },
+                    "400": {
+                        "description": "Fail - bad request error"
+                    },
+                    "401": {
+                        "description": "Fail - unauthorized error"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
+        "/api/system/tag": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "System"
+                ],
+                "summary": "get this api service project github version tag",
+                "responses": {
+                    "200": {
+                        "description": "OK - get its tag"
+                    }
+                }
+            }
+        },
+        "/api/system/ver": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "System"
+                ],
+                "summary": "get this api service version",
+                "responses": {
+                    "200": {
+                        "description": "OK - get its version"
+                    }
+                }
+            }
+        },
+        "/api/user/auth/sign-out": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "sign out action.",
+                "responses": {
+                    "200": {
+                        "description": "OK - sign-out successfully"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
+        "/api/user/auth/uname": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "get uname",
+                "responses": {
+                    "200": {
+                        "description": "OK - got uname"
+                    }
+                }
+            }
+        },
+        "/api/user/pub/sign-in": {
+            "post": {
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "sign in action. if ok, got token",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user name or email",
+                        "name": "uname",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "format": "password",
+                        "description": "password",
+                        "name": "pwd",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - sign-in successfully"
+                    },
+                    "400": {
+                        "description": "Fail - incorrect password"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
+        "/api/user/pub/sign-up": {
+            "post": {
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "sign up action, send user's basic info for registry",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "unique user name",
+                        "name": "uname",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "format": "email",
+                        "description": "user's email",
+                        "name": "email",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "user's password",
+                        "name": "pwd",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - then waiting for verification code"
+                    },
+                    "400": {
+                        "description": "Fail - invalid registry fields"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
+        "/api/user/pub/verify-email": {
+            "post": {
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "sign up action, step 2. send back email verification code",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "unique user name",
+                        "name": "uname",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "verification code (in user's email)",
+                        "name": "code",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - sign-up successfully"
+                    },
+                    "400": {
+                        "description": "Fail - incorrect verification code"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "authorization",
+            "in": "header"
+        }
+    }
+}

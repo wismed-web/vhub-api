@@ -1,0 +1,289 @@
+host: 127.0.0.1:1323
+info:
+  contact:
+    name: API Support
+  description: This is wismed v-hub backend-api server. Updated@ 2022-09-15T09:29:03+10:00
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: WISMED Vhub API
+  version: "1.0"
+paths:
+  /api/admin/email:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: 'unique user names, separator is '','' '
+        in: formData
+        name: unames
+        required: true
+        type: string
+      - description: subject for email
+        in: formData
+        name: subject
+        required: true
+        type: string
+      - description: body for email
+        in: formData
+        name: body
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - list successfully
+        "401":
+          description: Fail - unauthorized error
+        "403":
+          description: Fail - forbidden error
+        "500":
+          description: Fail - internal error
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - Admin
+  /api/admin/user/list/{fields}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: user filter with uname wildcard(*)
+        in: query
+        name: uname
+        type: string
+      - description: user filter with name wildcard(*)
+        in: query
+        name: name
+        type: string
+      - description: user filter with active status
+        in: query
+        name: active
+        type: string
+      - description: which user's fields (sep by ',') want to list. if empty, return
+          all fields
+        in: path
+        name: fields
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - list successfully
+        "401":
+          description: Fail - unauthorized error
+        "403":
+          description: Fail - forbidden error
+        "500":
+          description: Fail - internal error
+      security:
+      - ApiKeyAuth: []
+      summary: list users' info
+      tags:
+      - Admin
+  /api/admin/user/onlines:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: user filter with uname wildcard(*)
+        in: query
+        name: uname
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - list successfully
+        "401":
+          description: Fail - unauthorized error
+        "403":
+          description: Fail - forbidden error
+        "500":
+          description: Fail - internal error
+      security:
+      - ApiKeyAuth: []
+      summary: get all online users
+      tags:
+      - Admin
+  /api/admin/user/update/{fields}:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: unique user name want to be updated
+        in: formData
+        name: uname
+        required: true
+        type: string
+      - description: which user struct fields (sep by ',') want to be updated. (fields
+          must be identical to struct fields)
+        in: path
+        name: fields
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - list successfully
+        "400":
+          description: Fail - bad request error
+        "401":
+          description: Fail - unauthorized error
+        "500":
+          description: Fail - internal error
+      security:
+      - ApiKeyAuth: []
+      summary: update user's info by fields & its values
+      tags:
+      - Admin
+  /api/system/tag:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - get its tag
+      summary: get this api service project github version tag
+      tags:
+      - System
+  /api/system/ver:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - get its version
+      summary: get this api service version
+      tags:
+      - System
+  /api/user/auth/sign-out:
+    put:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - sign-out successfully
+        "500":
+          description: Fail - internal error
+      security:
+      - ApiKeyAuth: []
+      summary: sign out action.
+      tags:
+      - User
+  /api/user/auth/uname:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - got uname
+      security:
+      - ApiKeyAuth: []
+      summary: get uname
+      tags:
+      - User
+  /api/user/pub/sign-in:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: user name or email
+        in: formData
+        name: uname
+        required: true
+        type: string
+      - description: password
+        format: password
+        in: formData
+        name: pwd
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - sign-in successfully
+        "400":
+          description: Fail - incorrect password
+        "500":
+          description: Fail - internal error
+      summary: sign in action. if ok, got token
+      tags:
+      - User
+  /api/user/pub/sign-up:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: unique user name
+        in: formData
+        name: uname
+        required: true
+        type: string
+      - description: user's email
+        format: email
+        in: formData
+        name: email
+        required: true
+        type: string
+      - description: user's password
+        in: formData
+        name: pwd
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - then waiting for verification code
+        "400":
+          description: Fail - invalid registry fields
+        "500":
+          description: Fail - internal error
+      summary: sign up action, send user's basic info for registry
+      tags:
+      - User
+  /api/user/pub/verify-email:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: unique user name
+        in: formData
+        name: uname
+        required: true
+        type: string
+      - description: verification code (in user's email)
+        in: formData
+        name: code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - sign-up successfully
+        "400":
+          description: Fail - incorrect verification code
+        "500":
+          description: Fail - internal error
+      summary: sign up action, step 2. send back email verification code
+      tags:
+      - User
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: authorization
+    type: apiKey
+swagger: "2.0"
