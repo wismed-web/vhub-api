@@ -38,6 +38,7 @@ const docTemplate = `{
                 "tags": [
                     "Admin"
                 ],
+                "summary": "send email by 3rd service",
                 "parameters": [
                     {
                         "type": "string",

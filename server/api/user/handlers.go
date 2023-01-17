@@ -14,11 +14,13 @@ import (
 	u "github.com/digisan/user-mgr/user"
 	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
+	ext "github.com/wismed-web/vhub-api/server/api/user/external"
 )
 
 // *** after implementing, register with path in 'user.go' *** //
 
 var (
+	MapUserSpace  = &sync.Map{} // map[string]*fm.UserSpace, *** record logged-in user space ***
 	MapUserClaims = &sync.Map{} // map[string]*u.UserClaims, *** record logged-in user claims  ***
 )
 
@@ -180,7 +182,32 @@ func LogIn(c echo.Context) error {
 		Admin:   u.Admin{},
 	}
 
+AGAIN:
+
 	if err := si.CheckUserExisting(user); err != nil {
+
+		///////////////////////////////////////
+		// external user checking
+		{
+			// try v-site existing user check. if external user already exists, wrap user & login again
+			if u := ext.ValidateSavedExtUser(uname, pwd); u != nil {
+				user = u
+				goto AGAIN
+			}
+
+			// external v-site check via remote api
+			if ok, err := ext.ExtUserLoginCheck(uname, pwd); err == nil && ok {
+				// if can login v-site, but doesn't exist, create a new external user, u.uname is like "13888888888@@V"
+				u, err := ext.CreateExtUser(uname, pwd)
+				if err != nil {
+					return c.String(http.StatusInternalServerError, "ERR: creating external user, "+err.Error())
+				}
+				user = u
+				goto AGAIN
+			}
+		}
+		///////////////////////////////////////
+
 		return c.String(http.StatusBadRequest, err.Error())
 	}
 
@@ -195,6 +222,11 @@ func LogIn(c echo.Context) error {
 
 	// log in ok calling...
 	{
+		// us, err := fm.UseUser(user.UName)
+		// if err != nil || us == nil {
+		// 	return c.String(http.StatusInternalServerError, err.Error())
+		// }
+		// MapUserSpace.Store(user.UName, us)
 	}
 
 	claims := u.MakeUserClaims(user)

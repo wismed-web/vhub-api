@@ -16,8 +16,7 @@ then
 
 else
 
-    rm -rf ./server/build/linux64/server*
-    rm -rf ./server/build/linux64/process
+    rm -rf ./server/build/linux64/vhub*
     rm -rf ./server/build/linux64/tmp-locker
     
 fi

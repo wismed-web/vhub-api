@@ -42,6 +42,7 @@ paths:
           description: Fail - internal error
       security:
       - ApiKeyAuth: []
+      summary: send email by 3rd service
       tags:
       - Admin
   /api/admin/user/list/{fields}:
