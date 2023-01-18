@@ -6,6 +6,7 @@ import (
 	"sync"
 	"time"
 
+	fm "github.com/digisan/file-mgr"
 	. "github.com/digisan/go-generics/v2"
 	lk "github.com/digisan/logkit"
 	si "github.com/digisan/user-mgr/sign-in"
@@ -170,7 +171,7 @@ func LogIn(c echo.Context) error {
 		email = c.FormValue("uname")
 	)
 
-	lk.Debug("login: [%v] [%v]", uname, pwd)
+	lk.Log("login: [%v] [%v]", uname, pwd)
 
 	user := &u.User{
 		Core: u.Core{
@@ -184,7 +185,7 @@ func LogIn(c echo.Context) error {
 
 AGAIN:
 
-	if err := si.CheckUserExisting(user); err != nil {
+	if err := si.UserStatusIssue(user); err != nil {
 
 		///////////////////////////////////////
 		// external user checking
@@ -222,11 +223,14 @@ AGAIN:
 
 	// log in ok calling...
 	{
-		// us, err := fm.UseUser(user.UName)
-		// if err != nil || us == nil {
-		// 	return c.String(http.StatusInternalServerError, err.Error())
-		// }
-		// MapUserSpace.Store(user.UName, us)
+		{
+			// MUST DO `fm.InitFileMgr` in advance in elsewhere
+			us, err := fm.UseUser(user.UName)
+			if err != nil || us == nil {
+				return c.String(http.StatusInternalServerError, err.Error())
+			}
+			MapUserSpace.Store(user.UName, us)
+		}
 	}
 
 	claims := u.MakeUserClaims(user)

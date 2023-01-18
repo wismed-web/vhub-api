@@ -7,7 +7,6 @@ rm -rf ./server/server
 rm -rf ./server/tmp*
 rm -rf ./server/data
 rm -rf ./server/api/db/data
-rm -rf ./server/*config.json
 
 if [[ $1 == 'all' ]] 
 then
