@@ -9,10 +9,11 @@ import (
 	"os/signal"
 	"syscall"
 
+	. "github.com/digisan/go-generics/v2"
 	gio "github.com/digisan/gotk/io"
 	lk "github.com/digisan/logkit"
 	u "github.com/digisan/user-mgr/user"
-	"github.com/golang-jwt/jwt"
+	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/postfinance/single"
@@ -121,23 +122,23 @@ func echoHost(done chan<- string) {
 		{
 			api.SystemHandler(e.Group("/api/system"))
 			api.SignHandler(e.Group("/api/user/pub"))
+			api.FileHandler(e.Group("/api/file/pub"))
 		}
 
 		// other groups with middleware
 		groups := []string{
 			"/api/admin",
 			"/api/user/auth",
+			"/api/file/auth",
 		}
 		handlers := []func(*echo.Group){
 			api.AdminHandler,
 			api.UserAuthHandler,
+			api.FileAuthHandler,
 		}
 		for i, group := range groups {
 			r := e.Group(group)
-			r.Use(middleware.JWTWithConfig(middleware.JWTConfig{
-				Claims:     &u.UserClaims{},
-				SigningKey: []byte(u.TokenKey()),
-			}))
+			r.Use(echojwt.JWT(StrToConstBytes(u.TokenKey())))
 			r.Use(ValidateToken)
 			handlers[i](r)
 		}
@@ -156,9 +157,12 @@ func echoHost(done chan<- string) {
 
 func ValidateToken(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		userTkn := c.Get("user").(*jwt.Token)
-		claims := userTkn.Claims.(*u.UserClaims)
-		if claims.ValidateToken(userTkn.Raw) {
+		token, claims, err := u.TokenClaimsInHandler(c)
+		if err != nil {
+			return err
+		}
+		invoker := u.ClaimsToUser(claims)
+		if invoker.ValidateToken(token.Raw) {
 			return next(c)
 		}
 		return c.JSON(http.StatusUnauthorized, map[string]any{

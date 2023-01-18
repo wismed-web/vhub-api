@@ -11,11 +11,10 @@ import (
 	gm "github.com/digisan/go-mail"
 	lk "github.com/digisan/logkit"
 	u "github.com/digisan/user-mgr/user"
-	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
 )
 
-// @Title   send email 
+// @Title   send email
 // @Summary send email by 3rd service
 // @Description
 // @Tags    Admin
@@ -34,18 +33,15 @@ func SendEmail(c echo.Context) error {
 
 	lk.Warn("Enter: SendEmail")
 
-	var (
-		userTkn = c.Get("user").(*jwt.Token)
-		claims  = userTkn.Claims.(*u.UserClaims)
-	)
-
-	user, ok, err := u.LoadActiveUser(claims.UName)
-	switch {
-	case err != nil:
+	invoker, err := u.Invoker(c)
+	if err != nil {
 		return c.String(http.StatusInternalServerError, err.Error())
-	case !ok:
-		return c.String(http.StatusForbidden, fmt.Sprintf("invalid user status@[%s], dormant?", user.UName))
 	}
+	if _, ok, _ := u.LoadActiveUser(invoker.UName); !ok {
+		return c.String(http.StatusForbidden, fmt.Sprintf("invalid invoker status@[%s], dormant?", invoker.UName))
+	}
+
+	/////////////////////////////////////
 
 	const (
 		sep = "," // separator for unames
@@ -68,7 +64,7 @@ func SendEmail(c echo.Context) error {
 	for _, uname := range strings.Split(unames, sep) {
 		lk.Log("[%v] [%v] [%v]", uname, subject, body)
 
-		user, ok, err = u.LoadUser(uname, true)
+		user, ok, err := u.LoadUser(uname, true)
 		switch {
 		case err != nil:
 			return c.String(http.StatusInternalServerError, err.Error())
@@ -108,16 +104,11 @@ func ListUser(c echo.Context) error {
 
 	lk.Log("Enter: ListUser")
 
-	var (
-		userTkn = c.Get("user").(*jwt.Token)
-		claims  = userTkn.Claims.(*u.UserClaims)
-	)
-
-	invoker, ok, err := u.LoadActiveUser(claims.UName)
-	switch {
-	case err != nil:
+	invoker, err := u.Invoker(c)
+	if err != nil {
 		return c.String(http.StatusInternalServerError, err.Error())
-	case !ok:
+	}
+	if _, ok, _ := u.LoadActiveUser(invoker.UName); !ok {
 		return c.String(http.StatusForbidden, fmt.Sprintf("invalid invoker status@[%s], dormant?", invoker.UName))
 	}
 
@@ -197,17 +188,12 @@ func ListOnlineUser(c echo.Context) error {
 
 	lk.Log("Enter: ListOnlineUser")
 
-	var (
-		userTkn = c.Get("user").(*jwt.Token)
-		claims  = userTkn.Claims.(*u.UserClaims)
-	)
-
-	invoker, ok, err := u.LoadActiveUser(claims.UName)
-	switch {
-	case err != nil:
+	invoker, err := u.Invoker(c)
+	if err != nil {
 		return c.String(http.StatusInternalServerError, err.Error())
-	case !ok:
-		return c.String(http.StatusInternalServerError, fmt.Sprintf("invalid invoker status@[%s], dormant?", invoker.UName))
+	}
+	if _, ok, _ := u.LoadActiveUser(invoker.UName); !ok {
+		return c.String(http.StatusForbidden, fmt.Sprintf("invalid invoker status@[%s], dormant?", invoker.UName))
 	}
 
 	//////////////////////////////////////////////
@@ -253,16 +239,11 @@ func UpdateUser(c echo.Context) error {
 
 	lk.Log("Enter: UpdateUser")
 
-	var (
-		userTkn = c.Get("user").(*jwt.Token)
-		claims  = userTkn.Claims.(*u.UserClaims)
-	)
-
-	invoker, ok, err := u.LoadActiveUser(claims.UName)
-	switch {
-	case err != nil:
+	invoker, err := u.Invoker(c)
+	if err != nil {
 		return c.String(http.StatusInternalServerError, err.Error())
-	case !ok:
+	}
+	if _, ok, _ := u.LoadActiveUser(invoker.UName); !ok {
 		return c.String(http.StatusForbidden, fmt.Sprintf("invalid invoker status@[%s], dormant?", invoker.UName))
 	}
 

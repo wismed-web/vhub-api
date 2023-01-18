@@ -17,7 +17,7 @@ import (
 
 const (
 	extSep  = "@@" // for creating external user-name e.g. 13888888888@@V
-	timeout = 10    // unit second
+	timeout = 10   // unit second
 	// V
 	vCode  = "V"          // V Site Code
 	vEmail = "wismed.net" // V Site Mail
@@ -53,7 +53,7 @@ func newExtUser(userId, pwd string) *u.User {
 			Avatar:         []byte{},
 		},
 		Admin: u.Admin{
-			Regtime:   time.Now().Truncate(time.Second),
+			RegTime:   time.Now().Truncate(time.Second),
 			Active:    true,
 			Certified: false,
 			Official:  false,

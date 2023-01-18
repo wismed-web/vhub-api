@@ -54,10 +54,10 @@ func monitorUser(ctx context.Context, offlineTimeout time.Duration) {
 	go func() {
 		for inactive := range cInactive {
 			if so.Logout(inactive) == nil {
-				if claims, ok := MapUserClaims.Load(inactive); ok {
-					lk.Log("delete token: [%v]", inactive)
-					claims.(*u.UserClaims).DeleteToken()
-					MapUserClaims.Delete(inactive)
+				if user, ok := UserCache.Load(inactive); ok {
+					lk.Log("deleting token: [%v]", inactive)
+					user.(*u.User).DeleteToken()
+					UserCache.Delete(inactive)
 				}
 				lk.Log("offline: [%v]", inactive)
 			}

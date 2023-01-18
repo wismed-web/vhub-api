@@ -13,7 +13,6 @@ import (
 	so "github.com/digisan/user-mgr/sign-out"
 	su "github.com/digisan/user-mgr/sign-up"
 	u "github.com/digisan/user-mgr/user"
-	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
 	ext "github.com/wismed-web/vhub-api/server/api/user/external"
 )
@@ -21,8 +20,8 @@ import (
 // *** after implementing, register with path in 'user.go' *** //
 
 var (
-	MapUserSpace  = &sync.Map{} // map[string]*fm.UserSpace, *** record logged-in user space ***
-	MapUserClaims = &sync.Map{} // map[string]*u.UserClaims, *** record logged-in user claims  ***
+	MapUserSpace = &sync.Map{} // map[string]*fm.UserSpace, *** record logged-in user space ***
+	UserCache    = &sync.Map{} // map[string]*u.User, *** record logged-in user ***
 )
 
 // @Title register a new user
@@ -66,7 +65,7 @@ func NewUser(c echo.Context) error {
 			Avatar:         []byte{},
 		},
 		Admin: u.Admin{
-			Regtime:   time.Now().Truncate(time.Second),
+			RegTime:   time.Now().Truncate(time.Second),
 			Active:    true,
 			Certified: false,
 			Official:  false,
@@ -233,10 +232,10 @@ AGAIN:
 		}
 	}
 
-	claims := u.MakeUserClaims(user)
-	defer func() { MapUserClaims.Store(user.UName, claims) }() // save current user claims for other usage
+	defer func() { UserCache.Store(user.UName, user) }() // save current user for other usage
 
-	token := claims.GenToken()
+	claims := u.MakeClaims(user)
+	token := u.GenerateToken(claims)
 	return c.JSON(http.StatusOK, echo.Map{
 		"token": token,
 		"auth":  "Bearer " + token,
@@ -255,16 +254,18 @@ AGAIN:
 // @Security ApiKeyAuth
 func LogOut(c echo.Context) error {
 
-	var (
-		userTkn = c.Get("user").(*jwt.Token)
-		claims  = userTkn.Claims.(*u.UserClaims)
-		uname   = claims.UName
-	)
+	invoker, err := u.Invoker(c)
+	if err != nil {
+		lk.Warn("%v", err)
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
 
-	defer claims.DeleteToken() // only in SignOut calling DeleteToken()
+	defer invoker.DeleteToken() // only in SignOut calling DeleteToken()
 
-	// remove user claims for 'uname'
-	defer MapUserClaims.Delete(uname)
+	uname := invoker.UName
+
+	// remove user by 'uname'
+	defer UserCache.Delete(uname)
 
 	if err := so.Logout(uname); err != nil {
 		lk.Warn("%v", err)
@@ -287,11 +288,11 @@ func GetUname(c echo.Context) error {
 
 	lk.Log("Enter: GetUname")
 
-	var (
-		userTkn = c.Get("user").(*jwt.Token)
-		claims  = userTkn.Claims.(*u.UserClaims)
-		uname   = claims.UName
-	)
+	user, err := u.Invoker(c)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
+
 	// lk.Debug(uname)
-	return c.JSON(http.StatusOK, uname)
+	return c.JSON(http.StatusOK, user.UName)
 }
