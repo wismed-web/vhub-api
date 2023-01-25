@@ -10,8 +10,7 @@ require (
 	github.com/digisan/gotk v0.2.14
 	github.com/digisan/logkit v0.1.4
 	github.com/digisan/user-mgr v0.5.0
-	github.com/golang-jwt/jwt v3.2.2+incompatible
-	github.com/labstack/echo-jwt/v4 v4.0.0
+	github.com/labstack/echo-jwt/v4 v4.0.1
 	github.com/labstack/echo/v4 v4.10.0
 	github.com/postfinance/single v0.0.2
 	github.com/swaggo/echo-swagger v1.3.5
@@ -37,6 +36,7 @@ require (
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
+	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/golang-jwt/jwt/v4 v4.4.3 // indirect
 	github.com/golang/glog v1.0.0 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
