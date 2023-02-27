@@ -24,6 +24,19 @@ var (
 	UserCache    = &sync.Map{} // map[string]*u.User, *** record logged-in user ***
 )
 
+// @Title   get password rule
+// @Summary get password rule for sign up
+// @Description
+// @Tags    User
+// @Accept  json
+// @Produce json
+// @Success 200 "OK - got password rule"
+// @Router /api/user/pub/pwdrule [get]
+func PwdRule(c echo.Context) error {
+	lk.Log("Enter: GetPwdRule")
+	return c.JSON(http.StatusOK, su.PwdRule())
+}
+
 // @Title register a new user
 // @Summary sign up action, send user's basic info for registry
 // @Description

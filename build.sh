@@ -44,6 +44,10 @@ GOARCH=amd64
 # For Docker, one build below for linux64 is enough.
 OUTPATH_LINUX=./build/linux64/
 mkdir -p $OUTPATH_LINUX
+
+# remove previous executables
+rm -rf $OUTPATH_LINUX/vhub-api*
+
 CGO_ENABLED=0 GOOS="linux" GOARCH="$GOARCH" go build -ldflags="$LDFLAGS" -o $OUT
 mv $OUT $OUTPATH_LINUX
 echo "${G}server(linux64) built${W}"

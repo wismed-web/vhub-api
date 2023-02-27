@@ -2,7 +2,7 @@ host: api.v-hub.net
 info:
   contact:
     name: API Support
-  description: This is wismed v-hub backend-api server. Updated@ 02-27-2023 16:55:57
+  description: This is wismed v-hub backend-api server. Updated@ 02-28-2023 10:16:47
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -192,6 +192,18 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: get uname
+      tags:
+      - User
+  /api/user/pub/pwdrule:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - got password rule
+      summary: get password rule for sign up
       tags:
       - User
   /api/user/pub/sign-in:

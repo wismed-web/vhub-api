@@ -315,6 +315,25 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/user/pub/pwdrule": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "get password rule for sign up",
+                "responses": {
+                    "200": {
+                        "description": "OK - got password rule"
+                    }
+                }
+            }
+        },
         "/api/user/pub/sign-in": {
             "post": {
                 "consumes": [
@@ -464,7 +483,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "WISMED Vhub API",
-	Description:      "This is wismed v-hub backend-api server. Updated@ 02-27-2023 16:55:57",
+	Description:      "This is wismed v-hub backend-api server. Updated@ 02-28-2023 10:16:47",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

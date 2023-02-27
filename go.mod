@@ -9,7 +9,7 @@ require (
 	github.com/digisan/go-mail v0.2.2
 	github.com/digisan/gotk v0.3.2
 	github.com/digisan/logkit v0.2.2
-	github.com/digisan/user-mgr v0.6.2
+	github.com/digisan/user-mgr v0.6.3
 	github.com/labstack/echo-jwt/v4 v4.1.0
 	github.com/labstack/echo/v4 v4.10.2
 	github.com/postfinance/single v0.0.2
@@ -49,7 +49,7 @@ require (
 	github.com/jtguibas/cinema v0.0.0-20200208054232-ca271f28a020 // indirect
 	github.com/klauspost/compress v1.16.0 // indirect
 	github.com/labstack/gommon v0.4.0 // indirect
-	github.com/leodido/go-urn v1.2.1 // indirect
+	github.com/leodido/go-urn v1.2.2 // indirect
 	github.com/mailgun/mailgun-go/v4 v4.8.2 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect

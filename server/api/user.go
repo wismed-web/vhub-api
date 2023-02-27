@@ -10,7 +10,9 @@ import (
 // /api/user/pub/
 func SignHandler(e *echo.Group) {
 
-	var mGET = map[string]echo.HandlerFunc{}
+	var mGET = map[string]echo.HandlerFunc{
+		"/pwdrule": user.PwdRule,
+	}
 	var mPOST = map[string]echo.HandlerFunc{
 		"/sign-up":      user.NewUser,
 		"/verify-email": user.VerifyEmail,
