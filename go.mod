@@ -3,7 +3,6 @@ module github.com/wismed-web/vhub-api
 go 1.20
 
 require (
-	github.com/digisan/deploy-util v0.1.2
 	github.com/digisan/file-mgr v0.3.1
 	github.com/digisan/go-config v0.2.2
 	github.com/digisan/go-generics v0.3.2
@@ -12,7 +11,7 @@ require (
 	github.com/digisan/logkit v0.2.2
 	github.com/digisan/user-mgr v0.6.1
 	github.com/labstack/echo-jwt/v4 v4.1.0
-	github.com/labstack/echo/v4 v4.10.0
+	github.com/labstack/echo/v4 v4.10.2
 	github.com/postfinance/single v0.0.2
 	github.com/swaggo/echo-swagger v1.3.5
 	github.com/swaggo/swag v1.8.10
@@ -36,7 +35,7 @@ require (
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
-	github.com/golang-jwt/jwt/v4 v4.4.3 // indirect
+	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
 	github.com/golang/glog v1.0.0 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
@@ -48,7 +47,7 @@ require (
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/jtguibas/cinema v0.0.0-20200208054232-ca271f28a020 // indirect
-	github.com/klauspost/compress v1.15.15 // indirect
+	github.com/klauspost/compress v1.16.0 // indirect
 	github.com/labstack/gommon v0.4.0 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/mailgun/mailgun-go/v4 v4.8.2 // indirect
@@ -70,7 +69,7 @@ require (
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
 	go.opencensus.io v0.24.0 // indirect
 	golang.org/x/crypto v0.6.0 // indirect
-	golang.org/x/net v0.6.0 // indirect
+	golang.org/x/net v0.7.0 // indirect
 	golang.org/x/sys v0.5.0 // indirect
 	golang.org/x/text v0.7.0 // indirect
 	golang.org/x/time v0.3.0 // indirect

@@ -1,8 +1,8 @@
-host: 127.0.0.1:1323
+host: api.v-hub.net
 info:
   contact:
     name: API Support
-  description: This is wismed v-hub backend-api server. Updated@ 2022-09-15T09:29:03+10:00
+  description: This is wismed v-hub backend-api server. Updated@ 02-27-2023 16:28:10
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html

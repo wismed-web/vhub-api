@@ -7,8 +7,26 @@ G=`tput setaf 2`
 Y=`tput setaf 3`
 W=`tput sgr0`
 
-# update swagger
+#######################################################################################
+
+# update src swagger comment.
+date '+%m-%d-%Y %H:%M:%S' | xargs -I {} sed -i -r 's/Updated@.*/Updated@ {}/' ./server/main.go
+
+# if [[ -z "$1" ]]
+# then 
+#     echo "${R}need swagger page test access [IP] or [Domain] is needed, abort.${R}"
+#     exit
+# fi
+
+# $1: swagger test access IP or domain
+# if [[ $1 ]]; then
+#     sed -i -r "s/@host .+/@host $1/" ./server/main.go
+# fi
+
+# update swagger doc
 ./update.sh
+
+#######################################################################################
 
 cd ./server
 
@@ -40,12 +58,10 @@ cp -rf ../init-admin.json $OUTPATH_LINUX
 
 #######################################################################################
 
-if [[ $1 == 'release' || $1 == 'rel' ]]
-then
-
-    RELEASE_NAME=wisite-api\($TM\).tar.gz 
-    cd ./build
-    echo $RELEASE_NAME
-    tar -czvf ./$RELEASE_NAME --exclude='./linux64/data' ./linux64
-
-fi
+# if [[ $1 == 'release' || $1 == 'rel' ]]
+# then
+#     RELEASE_NAME=wisite-api\($TM\).tar.gz 
+#     cd ./build
+#     echo $RELEASE_NAME
+#     tar -czvf ./$RELEASE_NAME --exclude='./linux64/data' ./linux64
+# fi
