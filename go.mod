@@ -9,7 +9,7 @@ require (
 	github.com/digisan/go-mail v0.2.2
 	github.com/digisan/gotk v0.3.2
 	github.com/digisan/logkit v0.2.2
-	github.com/digisan/user-mgr v0.6.3
+	github.com/digisan/user-mgr v0.7.0
 	github.com/labstack/echo-jwt/v4 v4.1.0
 	github.com/labstack/echo/v4 v4.10.2
 	github.com/postfinance/single v0.0.2

@@ -37,7 +37,7 @@ func PwdRule(c echo.Context) error {
 	return c.JSON(http.StatusOK, su.PwdRule())
 }
 
-// @Title register a new user
+// @Title   register a new user
 // @Summary sign up action, send user's basic info for registry
 // @Description
 // @Tags    User
@@ -117,7 +117,7 @@ func NewUser(c echo.Context) error {
 	// return c.JSON(http.StatusOK, "registered successfully")
 }
 
-// @Title verify new user's email
+// @Title   verify new user's email
 // @Summary sign up action, step 2. send back email verification code
 // @Description
 // @Tags    User
@@ -255,7 +255,34 @@ AGAIN:
 	})
 }
 
-// @Title sign out
+// @Title   trail
+// @Summary trail alive user.
+// @Description
+// @Tags    User
+// @Accept  json
+// @Produce json
+// @Success 200 "OK - trail successfully"
+// @Failure 500 "Fail - internal error"
+// @Router /api/user/auth/trail [patch]
+// @Security ApiKeyAuth
+func Trail(c echo.Context) error {
+
+	invoker, err := u.Invoker(c)
+	if err != nil {
+		lk.Warn("%v", err)
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
+
+	uname := invoker.UName
+	if err := si.Trail(uname); err != nil {
+		lk.Warn("%v", err)
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, fmt.Sprintf("[%s] trails successfully", uname))
+}
+
+// @Title   sign out
 // @Summary sign out action.
 // @Description
 // @Tags    User
@@ -288,7 +315,7 @@ func LogOut(c echo.Context) error {
 	return c.JSON(http.StatusOK, fmt.Sprintf("[%s] sign-out successfully", uname))
 }
 
-// @Title get uname
+// @Title   get uname
 // @Summary get uname
 // @Description
 // @Tags    User

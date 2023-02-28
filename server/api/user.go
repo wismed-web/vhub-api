@@ -66,7 +66,9 @@ func UserAuthHandler(e *echo.Group) {
 		"/sign-out": user.LogOut,
 	}
 	var mDELETE = map[string]echo.HandlerFunc{}
-	var mPATCH = map[string]echo.HandlerFunc{}
+	var mPATCH = map[string]echo.HandlerFunc{
+		"/trail": user.Trail,
+	}
 
 	// ------------------------------------------------------- //
 

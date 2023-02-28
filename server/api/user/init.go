@@ -39,7 +39,8 @@ func init() {
 
 	// monitor active users
 	ctx, Cancel = context.WithCancel(context.Background())
-	monitorUser(ctx, 7200*time.Second) // heartbeats checker timeout
+	si.SetOfflineTimeout(7200 * time.Second) // heartbeats(offline) checker timeout
+	monitorOfflineUser(ctx)
 
 	// load initial admin users
 	cfg.Init("init-admin", false, "./init-admin.json")
@@ -48,18 +49,18 @@ func init() {
 	admins = cfg.ValArr[string]("admin")
 }
 
-func monitorUser(ctx context.Context, offlineTimeout time.Duration) {
-	cInactive := make(chan string, 4096)
-	si.MonitorInactive(ctx, cInactive, offlineTimeout, nil)
+func monitorOfflineUser(ctx context.Context) {
+	cOffline := make(chan string, 4096)
+	si.MonitorOffline(ctx, cOffline, nil)
 	go func() {
-		for inactive := range cInactive {
-			if so.Logout(inactive) == nil {
-				if user, ok := UserCache.Load(inactive); ok {
-					lk.Log("deleting token: [%v]", inactive)
+		for offline := range cOffline {
+			if so.Logout(offline) == nil {
+				if user, ok := UserCache.Load(offline); ok {
+					lk.Log("deleting token: [%v]", offline)
 					user.(*u.User).DeleteToken()
-					UserCache.Delete(inactive)
+					UserCache.Delete(offline)
 				}
-				lk.Log("offline: [%v]", inactive)
+				lk.Log("offline: [%v]", offline)
 			}
 		}
 	}()

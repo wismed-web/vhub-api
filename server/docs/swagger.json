@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is wismed v-hub backend-api server. Updated@ 02-28-2023 10:16:47",
+        "description": "This is wismed v-hub backend-api server. Updated@ 02-28-2023 21:47:32",
         "title": "WISMED Vhub API",
         "contact": {
             "name": "API Support"
@@ -277,6 +277,33 @@
                 "responses": {
                     "200": {
                         "description": "OK - sign-out successfully"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
+        "/api/user/auth/trail": {
+            "patch": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "trail alive user.",
+                "responses": {
+                    "200": {
+                        "description": "OK - trail successfully"
                     },
                     "500": {
                         "description": "Fail - internal error"

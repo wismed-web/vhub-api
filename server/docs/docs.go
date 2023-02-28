@@ -291,6 +291,33 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/user/auth/trail": {
+            "patch": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "trail alive user.",
+                "responses": {
+                    "200": {
+                        "description": "OK - trail successfully"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
         "/api/user/auth/uname": {
             "get": {
                 "security": [
@@ -483,7 +510,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "WISMED Vhub API",
-	Description:      "This is wismed v-hub backend-api server. Updated@ 02-28-2023 10:16:47",
+	Description:      "This is wismed v-hub backend-api server. Updated@ 02-28-2023 21:47:32",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

@@ -2,7 +2,7 @@ host: api.v-hub.net
 info:
   contact:
     name: API Support
-  description: This is wismed v-hub backend-api server. Updated@ 02-28-2023 10:16:47
+  description: This is wismed v-hub backend-api server. Updated@ 02-28-2023 21:47:32
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -178,6 +178,22 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: sign out action.
+      tags:
+      - User
+  /api/user/auth/trail:
+    patch:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - trail successfully
+        "500":
+          description: Fail - internal error
+      security:
+      - ApiKeyAuth: []
+      summary: trail alive user.
       tags:
       - User
   /api/user/auth/uname:
