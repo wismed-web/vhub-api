@@ -34,14 +34,14 @@ func init() {
 
 // @title WISMED Vhub API
 // @version 1.0
-// @description This is wismed v-hub backend-api server. Updated@ 02-28-2023 21:47:32
+// @description This is wismed V-HUB backend-api server. Updated@ 03-04-2023 09:59:52
 // @termsOfService
 // @contact.name API Support
 // @contact.url
 // @contact.email
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
-// @host api.v-hub.net
+// @host api.V-HUB.net
 // @BasePath
 // @securityDefinitions.apikey ApiKeyAuth
 // @in header
@@ -117,6 +117,9 @@ func echoHost(done chan<- string) {
 
 		// host /swagger/index.html
 		e.GET("/swagger/*", echoSwagger.WrapHandler)
+
+		// host static file, such as agreement.pdf etc.
+		e.File("/agreement", "static/test.pdf")
 
 		// groups without middleware
 		{

@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is wismed v-hub backend-api server. Updated@ 02-28-2023 21:47:32",
+        "description": "This is wismed V-HUB backend-api server. Updated@ 03-04-2023 09:59:52",
         "title": "WISMED Vhub API",
         "contact": {
             "name": "API Support"
@@ -12,7 +12,7 @@
         },
         "version": "1.0"
     },
-    "host": "api.v-hub.net",
+    "host": "api.V-HUB.net",
     "paths": {
         "/api/admin/email": {
             "post": {

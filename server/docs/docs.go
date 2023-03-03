@@ -506,11 +506,11 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "api.v-hub.net",
+	Host:             "api.V-HUB.net",
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "WISMED Vhub API",
-	Description:      "This is wismed v-hub backend-api server. Updated@ 02-28-2023 21:47:32",
+	Description:      "This is wismed V-HUB backend-api server. Updated@ 03-04-2023 09:59:52",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

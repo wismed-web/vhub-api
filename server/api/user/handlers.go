@@ -20,8 +20,8 @@ import (
 // *** after implementing, register with path in 'user.go' *** //
 
 var (
-	MapUserSpace = &sync.Map{} // map[string]*fm.UserSpace, *** record logged-in user space ***
 	UserCache    = &sync.Map{} // map[string]*u.User, *** record logged-in user ***
+	MapUserSpace = &sync.Map{} // map[string]*fm.UserSpace, *** record logged-in user space ***
 )
 
 // @Title   get password rule
@@ -178,9 +178,10 @@ func VerifyEmail(c echo.Context) error {
 func LogIn(c echo.Context) error {
 
 	var (
-		uname = c.FormValue("uname")
-		pwd   = c.FormValue("pwd")
-		email = c.FormValue("uname")
+		uname       = c.FormValue("uname")
+		pwd         = c.FormValue("pwd")
+		email       = c.FormValue("uname")
+		loginFailed = false
 	)
 
 	lk.Log("login: [%v] [%v]", uname, pwd)
@@ -195,6 +196,20 @@ func LogIn(c echo.Context) error {
 		Admin:   u.Admin{},
 	}
 
+	defer func() {
+		if loginFailed {
+			si.CheckFrequentlyAccess(uname, 10, 3)
+		} else {
+			si.RemoveFrequentlyAccessRecord(uname, 1*time.Millisecond)
+		}
+	}()
+
+	if si.IsFrequentlyAccess(uname) {
+		loginFailed = true
+		si.RemoveFrequentlyAccessRecord(uname, 15*time.Second)
+		return c.String(http.StatusBadRequest, "Failed frequently, please try to Login later")
+	}
+
 AGAIN:
 
 	if err := si.UserStatusIssue(user); err != nil {
@@ -202,15 +217,15 @@ AGAIN:
 		///////////////////////////////////////
 		// external user checking
 		{
-			// try v-site existing user check. if external user already exists, wrap user & login again
+			// try V-HUB existing user check. if external user already exists, wrap user & login again
 			if u := ext.ValidateSavedExtUser(uname, pwd); u != nil {
 				user = u
 				goto AGAIN
 			}
 
-			// external v-site check via remote api
+			// external V-HUB check via remote api
 			if ok, err := ext.ExtUserLoginCheck(uname, pwd); err == nil && ok {
-				// if can login v-site, but doesn't exist, create a new external user, u.uname is like "13888888888@@V"
+				// if CAN login V-HUB, but doesn't exist, now create a new external user, its uname is like "13888888888@@V"
 				u, err := ext.CreateExtUser(uname, pwd)
 				if err != nil {
 					return c.String(http.StatusInternalServerError, "ERR: creating external user, "+err.Error())
@@ -220,11 +235,12 @@ AGAIN:
 			}
 		}
 		///////////////////////////////////////
-
+		loginFailed = true
 		return c.String(http.StatusBadRequest, err.Error())
 	}
 
 	if !si.PwdOK(user) { // if successful, user updated.
+		loginFailed = true
 		return c.String(http.StatusBadRequest, "incorrect password")
 	}
 

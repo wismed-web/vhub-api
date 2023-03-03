@@ -126,7 +126,7 @@ func ExtUserExistsAsync(userId string) chan ResultExt {
 		}
 		cResult <- ResultExt{
 			ok:  false,
-			err: fmt.Errorf("[%s] is not registered in V-Site", userId),
+			err: fmt.Errorf("[%s] is not registered in V-HUB", userId),
 		}
 	}()
 	return cResult
@@ -184,7 +184,7 @@ func ExtUserLoginValidateAsync(userId, pwd string) chan ResultExt {
 		}
 		cResult <- ResultExt{
 			ok:  false,
-			err: fmt.Errorf("[%s] with password [%s] cannot login v-site", userId, pwd),
+			err: fmt.Errorf("[%s] with password [%s] cannot login V-HUB", userId, pwd),
 		}
 	}()
 	return cResult

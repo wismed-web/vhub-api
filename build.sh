@@ -60,6 +60,9 @@ cp -rf ../sendgrid-config.json $OUTPATH_LINUX
 # copy init-admin config file to current folder
 cp -rf ../init-admin.json $OUTPATH_LINUX
 
+# copy static files(folder) to current folder
+cp -rf ./static $OUTPATH_LINUX
+
 #######################################################################################
 
 # if [[ $1 == 'release' || $1 == 'rel' ]]
