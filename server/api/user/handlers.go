@@ -247,7 +247,7 @@ AGAIN:
 	// fmt.Println(user)
 
 	// now, user is real user in db
-	defer lk.FailOnErr("%v", si.Trail(user.UName)) // Refresh Online Users, here UName is real
+	defer lk.FailOnErr("%v", si.Hail(user.UName)) // Refresh Online Users, here UName is real
 
 	// log in ok calling...
 	{
@@ -263,25 +263,29 @@ AGAIN:
 
 	defer func() { UserCache.Store(user.UName, user) }() // save current user for other usage
 
-	claims := u.MakeClaims(user)
-	token := u.GenerateToken(claims)
+	claims := u.MakeUserClaims(user)
+	// token := u.GenerateToken(claims)        // HS256
+	token, err := claims.GenerateToken(prvKey) // RAS
+	if err != nil {
+		return err
+	}
 	return c.JSON(http.StatusOK, echo.Map{
 		"token": token,
-		"auth":  "Bearer " + token,
+		// "auth":  "Bearer " + token,
 	})
 }
 
-// @Title   trail
-// @Summary trail alive user.
+// @Title   hail
+// @Summary alive user hails to server.
 // @Description
 // @Tags    User
 // @Accept  json
 // @Produce json
-// @Success 200 "OK - trail successfully"
+// @Success 200 "OK - hail successfully"
 // @Failure 500 "Fail - internal error"
-// @Router /api/user/auth/trail [patch]
+// @Router /api/user/auth/hail [patch]
 // @Security ApiKeyAuth
-func Trail(c echo.Context) error {
+func Hail(c echo.Context) error {
 
 	invoker, err := u.Invoker(c)
 	if err != nil {
@@ -290,12 +294,12 @@ func Trail(c echo.Context) error {
 	}
 
 	uname := invoker.UName
-	if err := si.Trail(uname); err != nil {
+	if err := si.Hail(uname); err != nil {
 		lk.Warn("%v", err)
 		return c.String(http.StatusInternalServerError, err.Error())
 	}
 
-	return c.JSON(http.StatusOK, fmt.Sprintf("[%s] trails successfully", uname))
+	return c.JSON(http.StatusOK, fmt.Sprintf("[%s] hails successfully", uname))
 }
 
 // @Title   sign out

@@ -264,6 +264,33 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/user/auth/hail": {
+            "patch": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "alive user hails to server.",
+                "responses": {
+                    "200": {
+                        "description": "OK - hail successfully"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
         "/api/user/auth/sign-out": {
             "put": {
                 "security": [
@@ -284,33 +311,6 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "OK - sign-out successfully"
-                    },
-                    "500": {
-                        "description": "Fail - internal error"
-                    }
-                }
-            }
-        },
-        "/api/user/auth/trail": {
-            "patch": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "User"
-                ],
-                "summary": "trail alive user.",
-                "responses": {
-                    "200": {
-                        "description": "OK - trail successfully"
                     },
                     "500": {
                         "description": "Fail - internal error"
@@ -510,7 +510,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "WISMED Vhub API",
-	Description:      "This is wismed V-HUB backend-api server. Updated@ 03-04-2023 09:59:52",
+	Description:      "This is WISMED V-HUB backend-api server. Updated@ 03-10-2023 11:04:11",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

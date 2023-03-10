@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/digisan/gotk/io"
+	fd "github.com/digisan/gotk/file-dir"
 	"github.com/digisan/gotk/project"
 	lk "github.com/digisan/logkit"
 )
@@ -17,7 +17,7 @@ const (
 )
 
 func writeln(ln string) {
-	io.MustAppendFile(fTag, []byte(ln), true)
+	fd.MustAppendFile(fTag, []byte(ln), true)
 }
 
 func recordVer() bool {

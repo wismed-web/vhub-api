@@ -9,16 +9,18 @@ import (
 	"os/signal"
 	"syscall"
 
-	. "github.com/digisan/go-generics/v2"
-	gio "github.com/digisan/gotk/io"
+	key "github.com/digisan/gotk/crypto"
+	fd "github.com/digisan/gotk/file-dir"
 	lk "github.com/digisan/logkit"
 	u "github.com/digisan/user-mgr/user"
+	"github.com/golang-jwt/jwt/v4"
 	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/postfinance/single"
 	echoSwagger "github.com/swaggo/echo-swagger"
 	"github.com/wismed-web/vhub-api/server/api"
+	userapi "github.com/wismed-web/vhub-api/server/api/user"
 	_ "github.com/wismed-web/vhub-api/server/docs" // once `swag init`, comment it out
 )
 
@@ -34,7 +36,7 @@ func init() {
 
 // @title WISMED Vhub API
 // @version 1.0
-// @description This is wismed V-HUB backend-api server. Updated@ 03-04-2023 09:59:52
+// @description This is WISMED V-HUB backend-api server. Updated@ 03-10-2023 11:04:11
 // @termsOfService
 // @contact.name API Support
 // @contact.url
@@ -57,7 +59,7 @@ func main() {
 
 	// only one instance
 	const dir = "./tmp-locker"
-	gio.MustCreateDir(dir)
+	fd.MustCreateDir(dir)
 	one, err := single.New("echo-service", single.WithLockPath(dir))
 	lk.FailOnErr("%v", err)
 	lk.FailOnErr("%v", one.Lock())
@@ -141,18 +143,21 @@ func echoHost(done chan<- string) {
 		}
 		for i, group := range groups {
 			r := e.Group(group)
-			r.Use(echojwt.JWT(StrToConstBytes(u.TokenKey())))
+			// r.Use(echojwt.JWT(StrToConstBytes(u.TokenKey()))) // HS256
+			r.Use(echojwt.WithConfig(echojwt.Config{
+				KeyFunc: getKey,
+			}))
 			r.Use(ValidateToken)
 			handlers[i](r)
 		}
 
 		// running...
-		portstr := fmt.Sprintf(":%d", port)
+		portStr := fmt.Sprintf(":%d", port)
 		var err error
 		if fHttp2 {
-			err = e.StartTLS(portstr, "./cert/public.pem", "./cert/private.pem")
+			err = e.StartTLS(portStr, "./cert/public.pem", "./cert/private.pem")
 		} else {
-			err = e.Start(portstr)
+			err = e.Start(portStr)
 		}
 		lk.FailOnErrWhen(err != http.ErrServerClosed, "%v", err)
 	}()
@@ -165,11 +170,17 @@ func ValidateToken(next echo.HandlerFunc) echo.HandlerFunc {
 			return err
 		}
 		invoker := u.ClaimsToUser(claims)
-		if invoker.ValidateToken(token.Raw) {
+		// if invoker.ValidateToken(token.Raw) { // HS256
+		if ok, err := invoker.ValidateToken(token.Raw, userapi.PubKey); ok && err == nil { // RSA
 			return next(c)
 		}
 		return c.JSON(http.StatusUnauthorized, map[string]any{
 			"message": "invalid or expired jwt",
 		})
 	}
+}
+
+func getKey(token *jwt.Token) (interface{}, error) {
+	// lk.Warn("%s\n", token.Raw)
+	return key.ParseRsaPublicKeyFromPemStr(string(userapi.PubKey))
 }

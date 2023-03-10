@@ -6,6 +6,7 @@ import (
 	"time"
 
 	cfg "github.com/digisan/go-config"
+	key "github.com/digisan/gotk/crypto"
 	lk "github.com/digisan/logkit"
 	si "github.com/digisan/user-mgr/sign-in"
 	so "github.com/digisan/user-mgr/sign-out"
@@ -18,6 +19,9 @@ var (
 	ctx    context.Context
 	Cancel context.CancelFunc
 
+	prvKey []byte
+	PubKey []byte
+
 	// init-admin users
 	admins []string
 )
@@ -25,6 +29,19 @@ var (
 func init() {
 
 	lk.Log("starting...user")
+
+	ctx, Cancel = context.WithCancel(context.Background())
+
+	// *** init key pair ***
+	rsaPrvKey, rsaPubKey := key.GenerateRsaKeyPair()
+
+	prvKeyStr, err := key.ExportRsaPrivateKeyAsPemStr(rsaPrvKey, "")
+	lk.FailOnErr("error @ export private key: %v", err)
+	prvKey = []byte(prvKeyStr)
+
+	PubKeyStr, err := key.ExportRsaPublicKeyAsPemStr(rsaPubKey, "")
+	lk.FailOnErr("error @ export public key: %v", err)
+	PubKey = []byte(PubKeyStr)
 
 	// set user db dir, activate ***[UserDB]***
 	u.InitDB("./data/db-user")
@@ -38,9 +55,12 @@ func init() {
 	})
 
 	// monitor active users
-	ctx, Cancel = context.WithCancel(context.Background())
-	si.SetOfflineTimeout(7200 * time.Second) // heartbeats(offline) checker timeout
+	si.SetOfflineTimeout(3600 * time.Second) // heartbeats(offline) checker timeout
 	monitorOfflineUser(ctx)
+
+	// monitor token expired
+	u.SetTokenValidPeriod(7200 * time.Second)
+	monitorUserTokenExpired(ctx)
 
 	// load initial admin users
 	cfg.Init("init-admin", false, "./init-admin.json")
@@ -64,4 +84,19 @@ func monitorOfflineUser(ctx context.Context) {
 			}
 		}
 	}()
+}
+
+func monitorUserTokenExpired(ctx context.Context) {
+	cExpired := make(chan string, 4096)
+	u.MonitorTokenExpired(ctx, cExpired, func(uname string) error {
+		lk.Log("[%s]'s session is expired\n", uname)
+		if so.Logout(uname) == nil {
+			if user, ok := UserCache.Load(uname); ok {
+				lk.Log("deleting token: [%v]", uname)
+				user.(*u.User).DeleteToken()
+				UserCache.Delete(uname)
+			}
+		}
+		return nil
+	})
 }

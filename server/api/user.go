@@ -67,7 +67,7 @@ func UserAuthHandler(e *echo.Group) {
 	}
 	var mDELETE = map[string]echo.HandlerFunc{}
 	var mPATCH = map[string]echo.HandlerFunc{
-		"/trail": user.Trail,
+		"/hail": user.Hail,
 	}
 
 	// ------------------------------------------------------- //
