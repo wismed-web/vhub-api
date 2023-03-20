@@ -228,7 +228,7 @@ func ListOnlineUser(c echo.Context) error {
 // @Accept  json
 // @Produce json
 // @Param   uname  formData string true "unique user name want to be updated"
-// @Param   fields path     string true "which user struct fields (sep by ',') want to be updated. (fields must be identical to struct fields)"
+// @Param   fields path     string true "which user struct fields (sep by ',') want to be updated. (fields must be IDENTICAL TO STRUCT FIELDS !!!)"
 // @Success 200 "OK - list successfully"
 // @Failure 400 "Fail - bad request error"
 // @Failure 401 "Fail - unauthorized error"
@@ -269,22 +269,21 @@ func UpdateUser(c echo.Context) error {
 		return c.String(http.StatusBadRequest, "updating 'fields' must be provided")
 	}
 
+	// url 'field' must be exportable & identical to struct definition !!!
 	for _, field := range strings.Split(fields, ",") {
-
-		// set struct
-		val := c.FormValue(field) // *** c.FormValue here ***
+		// set struct, field name must be exportable !!!
+		val := c.FormValue(field) // *** c.FormValue here, Field Names Must be exportable & identical to url Field Names ***
 		// lk.Debug("%v", val)
 		if err = SetField(user, field, val); err != nil {
 			return c.String(http.StatusBadRequest, err.Error())
 		}
-
-		// update db
-		if err = u.UpdateUser(user); err != nil {
-			return c.String(http.StatusInternalServerError, err.Error())
-		}
-
-		// lk.Debug("%+v", user)
 	}
+
+	// update db
+	if err = u.UpdateUser(user); err != nil {
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
+	// lk.Debug("%+v", *user)
 
 	return c.JSON(http.StatusOK, fmt.Sprintf("'%v' has been updated", user))
 }

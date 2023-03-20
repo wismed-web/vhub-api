@@ -204,7 +204,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "which user struct fields (sep by ',') want to be updated. (fields must be identical to struct fields)",
+                        "description": "which user struct fields (sep by ',') want to be updated. (fields must be IDENTICAL TO STRUCT FIELDS !!!)",
                         "name": "fields",
                         "in": "path",
                         "required": true
@@ -510,7 +510,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "WISMED Vhub API",
-	Description:      "This is WISMED V-HUB backend-api server. Updated@ 03-10-2023 11:04:11",
+	Description:      "This is WISMED V-HUB backend-api server. Updated@ 03-18-2023 12:36:24",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

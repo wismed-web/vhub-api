@@ -2,7 +2,7 @@ host: api.V-HUB.net
 info:
   contact:
     name: API Support
-  description: This is WISMED V-HUB backend-api server. Updated@ 03-10-2023 11:04:11
+  description: This is WISMED V-HUB backend-api server. Updated@ 03-18-2023 12:36:24
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -119,7 +119,7 @@ paths:
         required: true
         type: string
       - description: which user struct fields (sep by ',') want to be updated. (fields
-          must be identical to struct fields)
+          must be IDENTICAL TO STRUCT FIELDS !!!)
         in: path
         name: fields
         required: true

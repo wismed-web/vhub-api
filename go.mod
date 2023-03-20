@@ -5,9 +5,9 @@ go 1.20
 require (
 	github.com/digisan/file-mgr v0.3.2
 	github.com/digisan/go-config v0.2.3
-	github.com/digisan/go-generics v0.3.3
+	github.com/digisan/go-generics v0.3.5
 	github.com/digisan/go-mail v0.2.3
-	github.com/digisan/gotk v0.3.4
+	github.com/digisan/gotk v0.3.5
 	github.com/digisan/logkit v0.2.3
 	github.com/digisan/user-mgr v0.7.5
 	github.com/golang-jwt/jwt/v4 v4.5.0
@@ -47,7 +47,7 @@ require (
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/jtguibas/cinema v0.0.0-20200208054232-ca271f28a020 // indirect
-	github.com/klauspost/compress v1.16.0 // indirect
+	github.com/klauspost/compress v1.16.3 // indirect
 	github.com/labstack/gommon v0.4.0 // indirect
 	github.com/leodido/go-urn v1.2.2 // indirect
 	github.com/mailgun/mailgun-go/v4 v4.8.2 // indirect
@@ -59,7 +59,7 @@ require (
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/sendgrid/rest v2.6.9+incompatible // indirect
 	github.com/sendgrid/sendgrid-go v3.12.0+incompatible // indirect
-	github.com/swaggo/files v1.0.0 // indirect
+	github.com/swaggo/files v1.0.1 // indirect
 	github.com/tidwall/gjson v1.14.4 // indirect
 	github.com/tidwall/match v1.1.1 // indirect
 	github.com/tidwall/pretty v1.2.1 // indirect
@@ -74,7 +74,7 @@ require (
 	golang.org/x/text v0.8.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
 	golang.org/x/tools v0.7.0 // indirect
-	google.golang.org/protobuf v1.29.0 // indirect
+	google.golang.org/protobuf v1.30.0 // indirect
 	gopkg.in/go-playground/validator.v9 v9.31.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
