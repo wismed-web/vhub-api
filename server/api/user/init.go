@@ -79,6 +79,7 @@ func monitorOfflineUser(ctx context.Context) {
 					lk.Log("deleting token: [%v]", offline)
 					user.(*u.User).DeleteToken()
 					UserCache.Delete(offline)
+					MapUserSpace.Delete(offline)
 				}
 				lk.Log("offline: [%v]", offline)
 			}
@@ -95,6 +96,7 @@ func monitorUserTokenExpired(ctx context.Context) {
 				lk.Log("deleting token: [%v]", uname)
 				user.(*u.User).DeleteToken()
 				UserCache.Delete(uname)
+				MapUserSpace.Delete(uname)
 			}
 		}
 		return nil

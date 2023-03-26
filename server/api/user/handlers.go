@@ -261,7 +261,7 @@ AGAIN:
 		}
 	}
 
-	defer func() { UserCache.Store(user.UName, user) }() // save current user for other usage
+	defer UserCache.Store(user.UName, user) // save current user for other usage
 
 	claims := u.MakeUserClaims(user)
 	// token := u.GenerateToken(claims)        // HS256
@@ -355,4 +355,101 @@ func GetUname(c echo.Context) error {
 
 	// lk.Debug(uname)
 	return c.JSON(http.StatusOK, user.UName)
+}
+
+// @Title    avatar
+// @Summary  upload user's avatar
+// @Description
+// @Tags     User
+// @Accept   multipart/form-data
+// @Produce  json
+// @Param    avatar formData file   true  "whole image to upload and crop"
+// @Param    left   formData number false "image left x position for cropping"
+// @Param    top    formData number false "image top y position for cropping"
+// @Param    width  formData number false "cropped width"
+// @Param    height formData number false "cropped height"
+// @Success  200 "OK - get avatar"
+// @Failure  404 "Fail - avatar cannot be fetched"
+// @Failure  500 "Fail - internal error"
+// @Router   /api/user/auth/upload-avatar [post]
+// @Security ApiKeyAuth
+func UploadAvatar(c echo.Context) error {
+
+	user, err := u.Invoker(c)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
+
+	var (
+		left   = c.FormValue("left")
+		top    = c.FormValue("top")
+		width  = c.FormValue("width")
+		height = c.FormValue("height")
+	)
+
+	// Read & Crop & Set Avatar
+	file, err := c.FormFile("avatar")
+	if err != nil {
+		return c.String(http.StatusBadRequest, err.Error())
+	}
+
+	x, ok := AnyTryToType[int](left)
+	if !ok {
+		return c.String(http.StatusBadRequest, "[left] must be a int")
+	}
+	y, ok := AnyTryToType[int](top)
+	if !ok {
+		return c.String(http.StatusBadRequest, "[top] must be a int")
+	}
+	w, ok := AnyTryToType[int](width)
+	if !ok {
+		return c.String(http.StatusBadRequest, "[width] must be a int")
+	}
+	h, ok := AnyTryToType[int](height)
+	if !ok {
+		return c.String(http.StatusBadRequest, "[height] must be a int")
+	}
+	if err := user.SetAvatarByFormFile(file, x, y, w, h); err != nil {
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
+
+	// *** Fetch Avatar ***
+	b64, aType := user.AvatarBase64(false)
+	if aType == "" || b64 == "" {
+		return c.String(http.StatusNotFound, "avatar cannot be fetched")
+	}
+
+	src := fmt.Sprintf("data:%s;base64,%s", aType, b64)
+	return c.JSON(http.StatusOK, struct {
+		Src string `json:"src"`
+	}{Src: src})
+}
+
+// @Title    get self avatar
+// @Summary  get self avatar src as base64
+// @Description
+// @Tags     User
+// @Accept   json
+// @Produce  json
+// @Success  200 "OK - get avatar src base64"
+// @Failure  404 "Fail - avatar is empty"
+// @Failure  500 "Fail - internal error"
+// @Router   /api/user/auth/avatar [get]
+// @Security ApiKeyAuth
+func Avatar(c echo.Context) error {
+
+	user, err := u.Invoker(c)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
+
+	b64, aType := user.AvatarBase64(false)
+	if aType == "" || b64 == "" {
+		return c.String(http.StatusNotFound, "avatar is empty")
+	}
+
+	src := fmt.Sprintf("data:%s;base64,%s", aType, b64)
+	return c.JSON(http.StatusOK, struct {
+		Src string `json:"src"`
+	}{Src: src})
 }

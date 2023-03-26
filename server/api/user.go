@@ -59,9 +59,12 @@ func SignHandler(e *echo.Group) {
 func UserAuthHandler(e *echo.Group) {
 
 	var mGET = map[string]echo.HandlerFunc{
-		"/uname": user.GetUname,
+		"/uname":  user.GetUname,
+		"/avatar": user.Avatar,
 	}
-	var mPOST = map[string]echo.HandlerFunc{}
+	var mPOST = map[string]echo.HandlerFunc{
+		"/upload-avatar": user.UploadAvatar,
+	}
 	var mPUT = map[string]echo.HandlerFunc{
 		"/sign-out": user.LogOut,
 	}

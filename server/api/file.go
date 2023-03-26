@@ -2,6 +2,7 @@ package api
 
 import (
 	"github.com/labstack/echo/v4"
+	"github.com/wismed-web/vhub-api/server/api/file"
 	_ "github.com/wismed-web/vhub-api/server/api/file"
 )
 
@@ -52,8 +53,14 @@ func FileHandler(e *echo.Group) {
 // /api/file/auth/
 func FileAuthHandler(e *echo.Group) {
 
-	var mGET = map[string]echo.HandlerFunc{}
-	var mPOST = map[string]echo.HandlerFunc{}
+	var mGET = map[string]echo.HandlerFunc{
+		"/path-content": file.PathContent,
+		"/file-items":   file.FileItems,
+	}
+	var mPOST = map[string]echo.HandlerFunc{
+		"/upload-formfile": file.UploadFormFile,
+		"/upload-bodydata": file.UploadBodyData,
+	}
 	var mPUT = map[string]echo.HandlerFunc{}
 	var mDELETE = map[string]echo.HandlerFunc{}
 	var mPATCH = map[string]echo.HandlerFunc{}

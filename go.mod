@@ -3,13 +3,13 @@ module github.com/wismed-web/vhub-api
 go 1.20
 
 require (
-	github.com/digisan/file-mgr v0.3.2
-	github.com/digisan/go-config v0.2.3
+	github.com/digisan/file-mgr v0.3.4
+	github.com/digisan/go-config v0.2.4
 	github.com/digisan/go-generics v0.3.5
-	github.com/digisan/go-mail v0.2.3
-	github.com/digisan/gotk v0.3.5
+	github.com/digisan/go-mail v0.2.4
+	github.com/digisan/gotk v0.3.6
 	github.com/digisan/logkit v0.2.3
-	github.com/digisan/user-mgr v0.7.5
+	github.com/digisan/user-mgr v0.7.6
 	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/labstack/echo-jwt/v4 v4.1.0
 	github.com/labstack/echo/v4 v4.10.2
@@ -26,7 +26,7 @@ require (
 	github.com/dgraph-io/badger/v3 v3.2103.5 // indirect
 	github.com/dgraph-io/ristretto v0.1.1 // indirect
 	github.com/digisan/db-helper v0.0.25 // indirect
-	github.com/digisan/fileflatter v0.0.11 // indirect
+	github.com/digisan/fileflatter v0.0.12 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/go-openapi/jsonpointer v0.19.6 // indirect
 	github.com/go-openapi/jsonreference v0.20.2 // indirect

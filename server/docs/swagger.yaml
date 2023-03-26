@@ -2,7 +2,7 @@ host: api.V-HUB.net
 info:
   contact:
     name: API Support
-  description: This is WISMED V-HUB backend-api server. Updated@ 03-18-2023 12:36:24
+  description: This is WISMED V-HUB backend-api server. Updated@ 03-26-2023 12:55:06
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -140,6 +140,192 @@ paths:
       summary: update user's info by fields & its values
       tags:
       - Admin
+  /api/file/auth/file-items:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: file ID (md5)
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - get file items successfully
+        "400":
+          description: Fail - incorrect query param id
+        "404":
+          description: Fail - not found
+        "500":
+          description: Fail - internal error
+      security:
+      - ApiKeyAuth: []
+      summary: get  file-items by given path or id.
+      tags:
+      - File
+  /api/file/auth/path-content:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: year-month, e.g. 2022-05
+        in: query
+        name: ym
+        required: true
+        type: string
+      - description: group path, e.g. group1/group2/group3
+        in: query
+        name: gpath
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - get content successfully
+        "500":
+          description: Fail - internal error
+      security:
+      - ApiKeyAuth: []
+      summary: get content under specific path.
+      tags:
+      - File
+  /api/file/auth/upload-bodydata:
+    post:
+      consumes:
+      - application/octet-stream
+      parameters:
+      - description: filename for uploading data from body
+        in: query
+        name: fname
+        required: true
+        type: string
+      - description: note for uploading file
+        in: query
+        name: note
+        type: string
+      - description: add /yyyy-mm/ into storage path
+        in: query
+        name: addym
+        required: true
+        type: boolean
+      - description: 1st category for uploading file
+        in: query
+        name: group0
+        type: string
+      - description: 2nd category for uploading file
+        in: query
+        name: group1
+        type: string
+      - description: 3rd category for uploading file
+        in: query
+        name: group2
+        type: string
+      - description: file data for uploading
+        format: binary
+        in: body
+        name: data
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - return storage path
+        "400":
+          description: Fail - file param is incorrect
+        "500":
+          description: Fail - internal error
+      security:
+      - ApiKeyAuth: []
+      summary: upload file action via body content.
+      tags:
+      - File
+  /api/file/auth/upload-formfile:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: note for uploading file
+        in: formData
+        name: note
+        type: string
+      - description: add /yyyy-mm/ into storage path
+        in: formData
+        name: addym
+        required: true
+        type: boolean
+      - description: 1st category for uploading file
+        in: formData
+        name: group0
+        type: string
+      - description: 2nd category for uploading file
+        in: formData
+        name: group1
+        type: string
+      - description: 3rd category for uploading file
+        in: formData
+        name: group2
+        type: string
+      - description: file path for uploading
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - return storage path
+        "400":
+          description: Fail - file param is incorrect
+        "500":
+          description: Fail - internal error
+      security:
+      - ApiKeyAuth: []
+      summary: upload file action via form file input.
+      tags:
+      - File
+  /api/file/auth/upload-image:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: image to upload and crop
+        in: formData
+        name: image
+        required: true
+        type: file
+      - description: image left x position to start cropping
+        in: formData
+        name: left
+        type: number
+      - description: image top y position to start cropping
+        in: formData
+        name: top
+        type: number
+      - description: crop width
+        in: formData
+        name: width
+        type: number
+      - description: crop height
+        in: formData
+        name: height
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - get its version
+      security:
+      - ApiKeyAuth: []
+      summary: upload an image and crop it
+      tags:
+      - File
   /api/system/tag:
     get:
       consumes:

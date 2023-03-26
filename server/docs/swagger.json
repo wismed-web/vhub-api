@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is WISMED V-HUB backend-api server. Updated@ 03-18-2023 12:36:24",
+        "description": "This is WISMED V-HUB backend-api server. Updated@ 03-26-2023 12:55:06",
         "title": "WISMED Vhub API",
         "contact": {
             "name": "API Support"
@@ -215,6 +215,298 @@
                     },
                     "500": {
                         "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
+        "/api/file/auth/file-items": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "File"
+                ],
+                "summary": "get  file-items by given path or id.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "file ID (md5)",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - get file items successfully"
+                    },
+                    "400": {
+                        "description": "Fail - incorrect query param id"
+                    },
+                    "404": {
+                        "description": "Fail - not found"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
+        "/api/file/auth/path-content": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "File"
+                ],
+                "summary": "get content under specific path.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "year-month, e.g. 2022-05",
+                        "name": "ym",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "group path, e.g. group1/group2/group3",
+                        "name": "gpath",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - get content successfully"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
+        "/api/file/auth/upload-bodydata": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/octet-stream"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "File"
+                ],
+                "summary": "upload file action via body content.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "filename for uploading data from body",
+                        "name": "fname",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "note for uploading file",
+                        "name": "note",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "add /yyyy-mm/ into storage path",
+                        "name": "addym",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "1st category for uploading file",
+                        "name": "group0",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "2nd category for uploading file",
+                        "name": "group1",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "3rd category for uploading file",
+                        "name": "group2",
+                        "in": "query"
+                    },
+                    {
+                        "format": "binary",
+                        "description": "file data for uploading",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - return storage path"
+                    },
+                    "400": {
+                        "description": "Fail - file param is incorrect"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
+        "/api/file/auth/upload-formfile": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "File"
+                ],
+                "summary": "upload file action via form file input.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "note for uploading file",
+                        "name": "note",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "add /yyyy-mm/ into storage path",
+                        "name": "addym",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "1st category for uploading file",
+                        "name": "group0",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "2nd category for uploading file",
+                        "name": "group1",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "3rd category for uploading file",
+                        "name": "group2",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "file",
+                        "description": "file path for uploading",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - return storage path"
+                    },
+                    "400": {
+                        "description": "Fail - file param is incorrect"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
+        "/api/file/auth/upload-image": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "File"
+                ],
+                "summary": "upload an image and crop it",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "image to upload and crop",
+                        "name": "image",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "image left x position to start cropping",
+                        "name": "left",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "number",
+                        "description": "image top y position to start cropping",
+                        "name": "top",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "number",
+                        "description": "crop width",
+                        "name": "width",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "number",
+                        "description": "crop height",
+                        "name": "height",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - get its version"
                     }
                 }
             }
