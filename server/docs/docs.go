@@ -339,7 +339,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "note for uploading file",
+                        "description": "note for uploading file; if file is image or video, 'crop:x,y,w,h' for cropping",
                         "name": "note",
                         "in": "query"
                     },
@@ -412,7 +412,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "note for uploading file",
+                        "description": "note for uploading file; if file is image or video, 'crop:x,y,w,h' for cropping",
                         "name": "note",
                         "in": "formData"
                     },
@@ -462,63 +462,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/file/auth/upload-image": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "multipart/form-data"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "File"
-                ],
-                "summary": "upload an image and crop it",
-                "parameters": [
-                    {
-                        "type": "file",
-                        "description": "image to upload and crop",
-                        "name": "image",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "number",
-                        "description": "image left x position to start cropping",
-                        "name": "left",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "number",
-                        "description": "image top y position to start cropping",
-                        "name": "top",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "number",
-                        "description": "crop width",
-                        "name": "width",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "number",
-                        "description": "crop height",
-                        "name": "height",
-                        "in": "formData"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK - get its version"
-                    }
-                }
-            }
-        },
         "/api/system/tag": {
             "get": {
                 "consumes": [
@@ -553,6 +496,36 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "OK - get its version"
+                    }
+                }
+            }
+        },
+        "/api/user/auth/avatar": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "get self avatar src as base64",
+                "responses": {
+                    "200": {
+                        "description": "OK - get avatar src base64"
+                    },
+                    "404": {
+                        "description": "Fail - avatar is empty"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
                     }
                 }
             }
@@ -631,6 +604,69 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "OK - got uname"
+                    }
+                }
+            }
+        },
+        "/api/user/auth/upload-avatar": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "upload user's avatar",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "whole image to upload and crop",
+                        "name": "avatar",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "image left x position for cropping",
+                        "name": "left",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "number",
+                        "description": "image top y position for cropping",
+                        "name": "top",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "number",
+                        "description": "cropped width",
+                        "name": "width",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "number",
+                        "description": "cropped height",
+                        "name": "height",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - get avatar"
+                    },
+                    "404": {
+                        "description": "Fail - avatar cannot be fetched"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
                     }
                 }
             }
@@ -803,7 +839,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "WISMED Vhub API",
-	Description:      "This is WISMED V-HUB backend-api server. Updated@ 03-26-2023 12:55:06",
+	Description:      "This is WISMED V-HUB backend-api server. Updated@ 03-26-2023 14:51:07",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

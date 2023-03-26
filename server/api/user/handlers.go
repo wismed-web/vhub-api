@@ -368,7 +368,7 @@ func GetUname(c echo.Context) error {
 // @Param    top    formData number false "image top y position for cropping"
 // @Param    width  formData number false "cropped width"
 // @Param    height formData number false "cropped height"
-// @Success  200 "OK - get avatar"
+// @Success  200 "OK - get avatar src base64"
 // @Failure  404 "Fail - avatar cannot be fetched"
 // @Failure  500 "Fail - internal error"
 // @Router   /api/user/auth/upload-avatar [post]
@@ -412,10 +412,13 @@ func UploadAvatar(c echo.Context) error {
 	if err := user.SetAvatarByFormFile(file, x, y, w, h); err != nil {
 		return c.String(http.StatusInternalServerError, err.Error())
 	}
+	if err := u.UpdateUser(user); err != nil {
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
 
 	// *** Fetch Avatar ***
 	b64, aType := user.AvatarBase64(false)
-	if aType == "" || b64 == "" {
+	if len(b64) == 0 || len(aType) == 0 {
 		return c.String(http.StatusNotFound, "avatar cannot be fetched")
 	}
 
@@ -444,7 +447,7 @@ func Avatar(c echo.Context) error {
 	}
 
 	b64, aType := user.AvatarBase64(false)
-	if aType == "" || b64 == "" {
+	if len(b64) == 0 || len(aType) == 0 {
 		return c.String(http.StatusNotFound, "avatar is empty")
 	}
 

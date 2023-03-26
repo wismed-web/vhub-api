@@ -2,7 +2,7 @@ host: api.V-HUB.net
 info:
   contact:
     name: API Support
-  description: This is WISMED V-HUB backend-api server. Updated@ 03-26-2023 12:55:06
+  description: This is WISMED V-HUB backend-api server. Updated@ 03-26-2023 14:51:07
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -203,7 +203,8 @@ paths:
         name: fname
         required: true
         type: string
-      - description: note for uploading file
+      - description: note for uploading file; if file is image or video, 'crop:x,y,w,h'
+          for cropping
         in: query
         name: note
         type: string
@@ -250,7 +251,8 @@ paths:
       consumes:
       - multipart/form-data
       parameters:
-      - description: note for uploading file
+      - description: note for uploading file; if file is image or video, 'crop:x,y,w,h'
+          for cropping
         in: formData
         name: note
         type: string
@@ -290,42 +292,6 @@ paths:
       summary: upload file action via form file input.
       tags:
       - File
-  /api/file/auth/upload-image:
-    post:
-      consumes:
-      - multipart/form-data
-      parameters:
-      - description: image to upload and crop
-        in: formData
-        name: image
-        required: true
-        type: file
-      - description: image left x position to start cropping
-        in: formData
-        name: left
-        type: number
-      - description: image top y position to start cropping
-        in: formData
-        name: top
-        type: number
-      - description: crop width
-        in: formData
-        name: width
-        type: number
-      - description: crop height
-        in: formData
-        name: height
-        type: number
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK - get its version
-      security:
-      - ApiKeyAuth: []
-      summary: upload an image and crop it
-      tags:
-      - File
   /api/system/tag:
     get:
       consumes:
@@ -350,6 +316,24 @@ paths:
       summary: get this api service version
       tags:
       - System
+  /api/user/auth/avatar:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - get avatar src base64
+        "404":
+          description: Fail - avatar is empty
+        "500":
+          description: Fail - internal error
+      security:
+      - ApiKeyAuth: []
+      summary: get self avatar src as base64
+      tags:
+      - User
   /api/user/auth/hail:
     patch:
       consumes:
@@ -394,6 +378,46 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: get uname
+      tags:
+      - User
+  /api/user/auth/upload-avatar:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: whole image to upload and crop
+        in: formData
+        name: avatar
+        required: true
+        type: file
+      - description: image left x position for cropping
+        in: formData
+        name: left
+        type: number
+      - description: image top y position for cropping
+        in: formData
+        name: top
+        type: number
+      - description: cropped width
+        in: formData
+        name: width
+        type: number
+      - description: cropped height
+        in: formData
+        name: height
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - get avatar
+        "404":
+          description: Fail - avatar cannot be fetched
+        "500":
+          description: Fail - internal error
+      security:
+      - ApiKeyAuth: []
+      summary: upload user's avatar
       tags:
       - User
   /api/user/pub/pwdrule:
