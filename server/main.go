@@ -36,7 +36,7 @@ func init() {
 
 // @title WISMED Vhub API
 // @version 1.0
-// @description This is WISMED V-HUB backend-api server. Updated@ 03-26-2023 14:51:07
+// @description This is WISMED V-HUB backend-api server. Updated@ 03-26-2023 15:45:10
 // @termsOfService
 // @contact.name API Support
 // @contact.url

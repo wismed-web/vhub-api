@@ -9,7 +9,7 @@ require (
 	github.com/digisan/go-mail v0.2.4
 	github.com/digisan/gotk v0.3.6
 	github.com/digisan/logkit v0.2.3
-	github.com/digisan/user-mgr v0.7.6
+	github.com/digisan/user-mgr v0.7.7
 	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/labstack/echo-jwt/v4 v4.1.0
 	github.com/labstack/echo/v4 v4.10.2

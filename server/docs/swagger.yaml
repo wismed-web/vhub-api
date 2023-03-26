@@ -2,7 +2,7 @@ host: api.V-HUB.net
 info:
   contact:
     name: API Support
-  description: This is WISMED V-HUB backend-api server. Updated@ 03-26-2023 14:51:07
+  description: This is WISMED V-HUB backend-api server. Updated@ 03-26-2023 15:45:10
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -410,7 +410,7 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK - get avatar
+          description: OK - get avatar src base64
         "404":
           description: Fail - avatar cannot be fetched
         "500":

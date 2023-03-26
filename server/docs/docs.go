@@ -660,7 +660,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK - get avatar"
+                        "description": "OK - get avatar src base64"
                     },
                     "404": {
                         "description": "Fail - avatar cannot be fetched"
@@ -839,7 +839,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "WISMED Vhub API",
-	Description:      "This is WISMED V-HUB backend-api server. Updated@ 03-26-2023 14:51:07",
+	Description:      "This is WISMED V-HUB backend-api server. Updated@ 03-26-2023 15:45:10",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

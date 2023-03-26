@@ -239,12 +239,8 @@ func UpdateUser(c echo.Context) error {
 
 	lk.Log("Enter: UpdateUser")
 
-	invoker, err := u.Invoker(c)
-	if err != nil {
+	if _, err := u.ToActiveFullUser(c); err != nil {
 		return c.String(http.StatusInternalServerError, err.Error())
-	}
-	if _, ok, _ := u.LoadActiveUser(invoker.UName); !ok {
-		return c.String(http.StatusForbidden, fmt.Sprintf("invalid invoker status@[%s], dormant?", invoker.UName))
 	}
 
 	//////////////////////////////////////////////

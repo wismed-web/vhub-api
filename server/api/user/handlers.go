@@ -375,7 +375,7 @@ func GetUname(c echo.Context) error {
 // @Security ApiKeyAuth
 func UploadAvatar(c echo.Context) error {
 
-	user, err := u.Invoker(c)
+	user, err := u.ToActiveFullUser(c)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, err.Error())
 	}
@@ -412,6 +412,8 @@ func UploadAvatar(c echo.Context) error {
 	if err := user.SetAvatarByFormFile(file, x, y, w, h); err != nil {
 		return c.String(http.StatusInternalServerError, err.Error())
 	}
+
+	// before 'UpdateUser', must make sure it is full fields
 	if err := u.UpdateUser(user); err != nil {
 		return c.String(http.StatusInternalServerError, err.Error())
 	}
@@ -441,11 +443,12 @@ func UploadAvatar(c echo.Context) error {
 // @Security ApiKeyAuth
 func Avatar(c echo.Context) error {
 
-	user, err := u.Invoker(c)
+	user, err := u.ToActiveFullUser(c)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, err.Error())
 	}
 
+	// if fetch extra fields from a user, must make sure it is full fields
 	b64, aType := user.AvatarBase64(false)
 	if len(b64) == 0 || len(aType) == 0 {
 		return c.String(http.StatusNotFound, "avatar is empty")
