@@ -3,6 +3,7 @@ package user
 import (
 	"fmt"
 	"net/http"
+	"strings"
 	"sync"
 	"time"
 
@@ -74,8 +75,8 @@ func NewUser(c echo.Context) error {
 			Title:          "",
 			Employer:       "",
 			Bio:            "",
-			AvatarType:     "",
-			Avatar:         []byte{},
+			AvatarType:     defaultAvatarType,
+			Avatar:         defaultAvatar,
 		},
 		Admin: u.Admin{
 			RegTime:   time.Now().Truncate(time.Second),
@@ -136,7 +137,7 @@ func VerifyEmail(c echo.Context) error {
 		code  = c.FormValue("code")
 	)
 
-	user, err := su.VerifyCode(uname, code)
+	user, err := su.VerifyCode(uname, strings.TrimSpace(code))
 	if err != nil || user == nil {
 		return c.String(http.StatusBadRequest, err.Error())
 	}

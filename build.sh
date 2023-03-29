@@ -63,6 +63,9 @@ cp -rf ../init-admin.json $OUTPATH_LINUX
 # copy static files(folder) to current folder
 cp -rf ./static $OUTPATH_LINUX
 
+# copy res files(folder) to current folder
+cp -rf ./res $OUTPATH_LINUX
+
 #######################################################################################
 
 # if [[ $1 == 'release' || $1 == 'rel' ]]

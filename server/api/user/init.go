@@ -2,6 +2,7 @@ package user
 
 import (
 	"context"
+	"os"
 	"strings"
 	"time"
 
@@ -24,6 +25,10 @@ var (
 
 	// init-admin users
 	admins []string
+
+	// default avatar & avatar type
+	defaultAvatar     []byte
+	defaultAvatarType string
 )
 
 func init() {
@@ -55,11 +60,11 @@ func init() {
 	})
 
 	// monitor active users
-	si.SetOfflineTimeout(3600 * time.Second) // heartbeats(offline) checker timeout
+	si.SetOfflineTimeout(7200 * time.Second) // heartbeats(offline) checker timeout
 	monitorOfflineUser(ctx)
 
 	// monitor token expired
-	u.SetTokenValidPeriod(7200 * time.Second)
+	u.SetTokenValidPeriod(14400 * time.Second)
 	monitorUserTokenExpired(ctx)
 
 	// load initial admin users
@@ -67,6 +72,11 @@ func init() {
 	cfg.Use("init-admin")
 	cfg.Show()
 	admins = cfg.ValArr[string]("admin")
+
+	// load default avatar from resource
+	defaultAvatar, err = os.ReadFile("./res/avatar.png")
+	lk.FailOnErr("%v", err)
+	defaultAvatarType = "image/png"
 }
 
 func monitorOfflineUser(ctx context.Context) {
