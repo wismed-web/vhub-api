@@ -34,7 +34,7 @@ func init() {
 	lk.WarnDetail(false)
 }
 
-// @title WISMED Vhub API
+// @title WISMED V-HUB API
 // @version 1.0
 // @description This is WISMED V-HUB backend-api server. Updated@ 03-29-2023 12:08:54
 // @termsOfService
@@ -69,7 +69,7 @@ func main() {
 		lk.Log("Server Exited Successfully")
 	}()
 
-	// start Service
+	// start service
 	done := make(chan string)
 	echoHost(done)
 	lk.Log(<-done)
