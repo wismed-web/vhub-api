@@ -36,7 +36,7 @@ func init() {
 
 // @title WISMED V-HUB API
 // @version 1.0
-// @description This is WISMED V-HUB backend-api server. Updated@ 03-31-2023 12:32:09
+// @description This is WISMED V-HUB backend-api server. Updated@ 04-01-2023 17:50:03
 // @termsOfService
 // @contact.name API Support
 // @contact.url
@@ -123,23 +123,25 @@ func echoHost(done chan<- string) {
 		// host static file, such as agreement.pdf etc.
 		e.File("/agreement", "static/test.pdf")
 
-		// groups without middleware
+		// groups WITHOUT middleware
 		{
 			api.SystemHandler(e.Group("/api/system"))
 			api.SignHandler(e.Group("/api/user/pub"))
 			api.FileHandler(e.Group("/api/file/pub"))
 		}
 
-		// other groups with middleware
+		// other groups WITH middleware,
 		groups := []string{
 			"/api/admin",
 			"/api/user/auth",
 			"/api/file/auth",
+			"/api/submit",
 		}
 		handlers := []func(*echo.Group){
 			api.AdminHandler,
 			api.UserAuthHandler,
 			api.FileAuthHandler,
+			api.SubmitHandler,
 		}
 		for i, group := range groups {
 			r := e.Group(group)

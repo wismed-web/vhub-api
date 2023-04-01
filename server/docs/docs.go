@@ -462,6 +462,77 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/submit/template": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Submit"
+                ],
+                "summary": "get Post template for submission reference.",
+                "responses": {
+                    "200": {
+                        "description": "OK - get template successfully"
+                    }
+                }
+            }
+        },
+        "/api/submit/upload": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Submit"
+                ],
+                "summary": "submit a Post by filling its template.",
+                "parameters": [
+                    {
+                        "description": "filled Post template json file",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "followee Post ID (empty when submitting a new post)",
+                        "name": "followee",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - submit successfully"
+                    },
+                    "400": {
+                        "description": "Fail - incorrect Post format"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
         "/api/system/tag": {
             "get": {
                 "consumes": [
@@ -839,7 +910,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "WISMED V-HUB API",
-	Description:      "This is WISMED V-HUB backend-api server. Updated@ 03-31-2023 12:32:09",
+	Description:      "This is WISMED V-HUB backend-api server. Updated@ 04-01-2023 17:50:03",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

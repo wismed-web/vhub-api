@@ -3,6 +3,7 @@ module github.com/wismed-web/vhub-api
 go 1.20
 
 require (
+	github.com/digisan/event-mgr v0.2.2
 	github.com/digisan/file-mgr v0.3.4
 	github.com/digisan/go-config v0.2.4
 	github.com/digisan/go-generics v0.3.5
@@ -41,6 +42,7 @@ require (
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/google/flatbuffers v23.3.3+incompatible // indirect
+	github.com/google/uuid v1.3.0 // indirect
 	github.com/gookit/color v1.5.3 // indirect
 	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/h2non/filetype v1.1.3 // indirect

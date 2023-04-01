@@ -2,7 +2,7 @@ host: api.V-HUB.net
 info:
   contact:
     name: API Support
-  description: This is WISMED V-HUB backend-api server. Updated@ 03-31-2023 12:32:09
+  description: This is WISMED V-HUB backend-api server. Updated@ 04-01-2023 17:50:03
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -292,6 +292,49 @@ paths:
       summary: upload file action via form file input.
       tags:
       - File
+  /api/submit/template:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - get template successfully
+      security:
+      - ApiKeyAuth: []
+      summary: get Post template for submission reference.
+      tags:
+      - Submit
+  /api/submit/upload:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: filled Post template json file
+        in: body
+        name: data
+        required: true
+        schema:
+          type: string
+      - description: followee Post ID (empty when submitting a new post)
+        in: query
+        name: followee
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - submit successfully
+        "400":
+          description: Fail - incorrect Post format
+        "500":
+          description: Fail - internal error
+      security:
+      - ApiKeyAuth: []
+      summary: submit a Post by filling its template.
+      tags:
+      - Submit
   /api/system/tag:
     get:
       consumes:
