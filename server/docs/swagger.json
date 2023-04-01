@@ -1,8 +1,8 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is WISMED V-HUB backend-api server. Updated@ 03-29-2023 12:08:54",
-        "title": "WISMED Vhub API",
+        "description": "This is WISMED V-HUB backend-api server. Updated@ 03-31-2023 12:32:09",
+        "title": "WISMED V-HUB API",
         "contact": {
             "name": "API Support"
         },
