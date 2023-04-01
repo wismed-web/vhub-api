@@ -462,6 +462,124 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/retrieve/all-id": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Retrieve"
+                ],
+                "summary": "get all Post id group.",
+                "responses": {
+                    "200": {
+                        "description": "OK - get successfully"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
+        "/api/retrieve/batch-id": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Retrieve"
+                ],
+                "summary": "get a batch of Post id group.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "'time' or 'count'",
+                        "name": "by",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "recent [value] minutes for time OR most recent [value] count",
+                        "name": "value",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - get successfully"
+                    },
+                    "400": {
+                        "description": "Fail - incorrect query param type"
+                    },
+                    "404": {
+                        "description": "Fail - not found"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
+        "/api/retrieve/post": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Retrieve"
+                ],
+                "summary": "get one Post content.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Post ID for its content",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - get Post event successfully"
+                    },
+                    "400": {
+                        "description": "Fail - incorrect query param id"
+                    },
+                    "404": {
+                        "description": "Fail - not found"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
         "/api/submit/template": {
             "get": {
                 "security": [
@@ -910,7 +1028,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "WISMED V-HUB API",
-	Description:      "This is WISMED V-HUB backend-api server. Updated@ 04-01-2023 17:50:03",
+	Description:      "This is WISMED V-HUB backend-api server. Updated@ 04-02-2023 08:29:59",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

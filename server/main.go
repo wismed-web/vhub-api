@@ -36,7 +36,7 @@ func init() {
 
 // @title WISMED V-HUB API
 // @version 1.0
-// @description This is WISMED V-HUB backend-api server. Updated@ 04-01-2023 17:50:03
+// @description This is WISMED V-HUB backend-api server. Updated@ 04-02-2023 08:29:59
 // @termsOfService
 // @contact.name API Support
 // @contact.url
@@ -136,12 +136,16 @@ func echoHost(done chan<- string) {
 			"/api/user/auth",
 			"/api/file/auth",
 			"/api/submit",
+			"/api/retrieve",
+			"/api/manage",
 		}
 		handlers := []func(*echo.Group){
 			api.AdminHandler,
 			api.UserAuthHandler,
 			api.FileAuthHandler,
 			api.SubmitHandler,
+			api.RetrieveHandler,
+			api.ManageHandler,
 		}
 		for i, group := range groups {
 			r := e.Group(group)
