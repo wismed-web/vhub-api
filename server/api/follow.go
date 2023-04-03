@@ -2,23 +2,20 @@ package api
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/wismed-web/vhub-api/server/api/manage"
+	"github.com/wismed-web/vhub-api/server/api/follow"
 )
 
 // register to main echo Group
 
-// "/api/manage"
-func ManageHandler(e *echo.Group) {
+// "/api/follow"
+func FollowHandler(e *echo.Group) {
 
 	var mGET = map[string]echo.HandlerFunc{
-		"/own": manage.OwnPosts,
+		"/follower": follow.Followers,
 	}
 	var mPOST = map[string]echo.HandlerFunc{}
 	var mPUT = map[string]echo.HandlerFunc{}
-	var mDELETE = map[string]echo.HandlerFunc{
-		"/delete": manage.DelOne,
-		"/erase":  manage.EraseOne,
-	}
+	var mDELETE = map[string]echo.HandlerFunc{}
 	var mPATCH = map[string]echo.HandlerFunc{}
 
 	// ------------------------------------------------------- //

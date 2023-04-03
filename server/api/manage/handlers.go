@@ -15,15 +15,14 @@ import (
 // @Title   delete Post
 // @Summary delete one Post content.
 // @Description
-// @Tags    Post
+// @Tags    Manage
 // @Accept  json
 // @Produce json
 // @Param   id   query string true "Post ID for deleting"
 // @Success 200 "OK - delete successfully"
 // @Failure 400 "Fail - incorrect query param id"
-// @Failure 404 "Fail - not found"
 // @Failure 500 "Fail - internal error"
-// @Router /api/post/delete/one [delete]
+// @Router /api/manage/delete [delete]
 // @Security ApiKeyAuth
 func DelOne(c echo.Context) error {
 	var (
@@ -42,15 +41,14 @@ func DelOne(c echo.Context) error {
 // @Title erase one Post content
 // @Summary erase one Post content permanently.
 // @Description
-// @Tags    Post
+// @Tags    Manage
 // @Accept  json
 // @Produce json
 // @Param   id   query string true "Post ID for erasing"
 // @Success 200 "OK - erase successfully"
 // @Failure 400 "Fail - incorrect query param id"
-// @Failure 404 "Fail - not found"
 // @Failure 500 "Fail - internal error"
-// @Router /api/post/erase/one [delete]
+// @Router /api/manage/erase [delete]
 // @Security ApiKeyAuth
 func EraseOne(c echo.Context) error {
 	var (
@@ -69,15 +67,14 @@ func EraseOne(c echo.Context) error {
 // @Title get own Post id group in a specific period
 // @Summary get own Post id group in one specific time period.
 // @Description
-// @Tags    Post
+// @Tags    Manage
 // @Accept  json
 // @Produce json
 // @Param   period query string false "time period for query, format is 'yyyymm', e.g. '202206'. if missing, current yyyymm applies"
 // @Success 200 "OK - get successfully"
 // @Failure 400 "Fail - incorrect query param type"
-// @Failure 404 "Fail - empty event ids"
 // @Failure 500 "Fail - internal error"
-// @Router /api/post/own/ids [get]
+// @Router /api/manage/own [get]
 // @Security ApiKeyAuth
 func OwnPosts(c echo.Context) error {
 
@@ -108,207 +105,4 @@ func OwnPosts(c echo.Context) error {
 	// 	return c.JSON(http.StatusNotFound, ids)
 	// }
 	return c.JSON(http.StatusOK, ids)
-}
-
-// @Title toggle a bookmark for a post
-// @Summary add or remove a personal bookmark for a post.
-// @Description
-// @Tags    Post
-// @Accept  json
-// @Produce json
-// @Param   id path string true "Post ID (event id) for toggling a bookmark"
-// @Success 200 "OK - toggled bookmark successfully"
-// @Failure 500 "Fail - internal error"
-// @Router /api/post/bookmark/{id} [patch]
-// @Security ApiKeyAuth
-func Bookmark(c echo.Context) error {
-
-	invoker, err := u.Invoker(c)
-	if err != nil {
-		return c.String(http.StatusInternalServerError, err.Error())
-	}
-
-	var (
-		uname = invoker.UName
-		id    = c.Param("id")
-	)
-	bm, err := em.NewBookmark(uname, true)
-	if err != nil {
-		return c.String(http.StatusInternalServerError, err.Error())
-	}
-	has, err := bm.ToggleEvent(id)
-	if err != nil {
-		return c.String(http.StatusInternalServerError, err.Error())
-	}
-	return c.JSON(http.StatusOK, has)
-}
-
-// @Title get current user's bookmark status for a post
-// @Summary get current login user's bookmark status for a post.
-// @Description
-// @Tags    Post
-// @Accept  json
-// @Produce json
-// @Param   id path string true "Post ID (event id) for checking bookmark status"
-// @Success 200 "OK - get bookmark status successfully"
-// @Failure 500 "Fail - internal error"
-// @Router /api/post/bookmark/status/{id} [get]
-// @Security ApiKeyAuth
-func BookmarkStatus(c echo.Context) error {
-
-	invoker, err := u.Invoker(c)
-	if err != nil {
-		return c.String(http.StatusInternalServerError, err.Error())
-	}
-
-	var (
-		uname = invoker.UName
-		id    = c.Param("id")
-	)
-	bm, err := em.NewBookmark(uname, true)
-	if err != nil {
-		return c.String(http.StatusInternalServerError, err.Error())
-	}
-	return c.JSON(http.StatusOK, bm.HasEvent(id))
-}
-
-// @Title get bookmarked Posts
-// @Summary get all bookmarked Post ids.
-// @Description
-// @Tags    Post
-// @Accept  json
-// @Produce json
-// @Param   order query string false "order[desc asc] to get Post ids ordered by event time"
-// @Success 200 "OK - get successfully"
-// @Failure 500 "Fail - internal error"
-// @Router /api/post/bookmark/bookmarked [get]
-// @Security ApiKeyAuth
-func BookmarkedPosts(c echo.Context) error {
-
-	invoker, err := u.Invoker(c)
-	if err != nil {
-		return c.String(http.StatusInternalServerError, err.Error())
-	}
-
-	var (
-		uname = invoker.UName
-		order = c.QueryParam("order")
-	)
-
-	bm, err := em.NewBookmark(uname, true)
-	if err != nil {
-		return c.String(http.StatusInternalServerError, err.Error())
-	}
-	return c.JSON(http.StatusOK, bm.Bookmarks(order))
-}
-
-// @Title get a Post follower-Post ids
-// @Summary get a specified Post follower-Post id group.
-// @Description
-// @Tags    Post
-// @Accept  json
-// @Produce json
-// @Param   followee query string true "followee Post ID"
-// @Success 200 "OK - get successfully"
-// @Failure 404 "Fail - empty follower ids"
-// @Failure 500 "Fail - internal error"
-// @Router /api/post/follower/ids [get]
-// @Security ApiKeyAuth
-func Followers(c echo.Context) error {
-	var (
-		flwee = c.QueryParam("followee")
-	)
-
-	flwers, err := em.Followers(flwee)
-	if err != nil {
-		return c.String(http.StatusInternalServerError, err.Error())
-	}
-	// if len(flwers) == 0 {
-	// 	return c.JSON(http.StatusNotFound, flwers)
-	// }
-	return c.JSON(http.StatusOK, flwers)
-}
-
-// @Title add or remove a thumbs-up for a post
-// @Summary add or remove a personal thumbs-up for a post.
-// @Description
-// @Tags    Post
-// @Accept  json
-// @Produce json
-// @Param   id path string true "Post ID (event id) for adding or removing thumbs-up"
-// @Success 200 "OK - added or removed thumb successfully"
-// @Failure 500 "Fail - internal error"
-// @Router /api/post/thumbs-up/{id} [patch]
-// @Security ApiKeyAuth
-func ThumbsUp(c echo.Context) error {
-
-	invoker, err := u.Invoker(c)
-	if err != nil {
-		return c.String(http.StatusInternalServerError, err.Error())
-	}
-
-	var (
-		uname = invoker.UName
-		id    = c.Param("id")
-	)
-	ep, err := em.NewEventParticipate(id, true)
-	if err != nil {
-		return c.String(http.StatusInternalServerError, err.Error())
-	}
-	has, err := ep.TogglePtp("ThumbsUp", uname)
-	if err != nil {
-		return c.String(http.StatusInternalServerError, err.Error())
-	}
-	ptps, err := ep.Ptps("ThumbsUp")
-	if err != nil {
-		return c.String(http.StatusInternalServerError, err.Error())
-	}
-
-	lk.Log("---> %v", ptps)
-
-	return c.JSON(http.StatusOK, struct {
-		ThumbsUp bool
-		Count    int
-	}{
-		has, len(ptps),
-	})
-}
-
-// @Title get current user's thumbs-up status for a post
-// @Summary get current login user's thumbs-up status for a post.
-// @Description
-// @Tags    Post
-// @Accept  json
-// @Produce json
-// @Param   id path string true "Post ID (event id) for checking thumbs-up status"
-// @Success 200 "OK - get thumbs-up status successfully"
-// @Failure 500 "Fail - internal error"
-// @Router /api/post/thumbs-up/status/{id} [get]
-// @Security ApiKeyAuth
-func ThumbsUpStatus(c echo.Context) error {
-
-	invoker, err := u.Invoker(c)
-	if err != nil {
-		return c.String(http.StatusInternalServerError, err.Error())
-	}
-
-	var (
-		uname = invoker.UName
-		id    = c.Param("id")
-	)
-	ep, err := em.NewEventParticipate(id, true)
-	if err != nil {
-		return c.String(http.StatusInternalServerError, err.Error())
-	}
-	has := ep.HasPtp("ThumbsUp", uname)
-	ptps, err := ep.Ptps("ThumbsUp")
-	if err != nil {
-		return c.String(http.StatusInternalServerError, err.Error())
-	}
-	return c.JSON(http.StatusOK, struct {
-		ThumbsUp bool
-		Count    int
-	}{
-		has, len(ptps),
-	})
 }

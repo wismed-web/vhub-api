@@ -2,7 +2,7 @@ host: api.V-HUB.net
 info:
   contact:
     name: API Support
-  description: This is WISMED V-HUB backend-api server. Updated@ 04-02-2023 08:29:59
+  description: This is WISMED V-HUB backend-api server. Updated@ 04-03-2023 16:04:44
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -140,6 +140,71 @@ paths:
       summary: update user's info by fields & its values
       tags:
       - Admin
+  /api/bookmark/marked:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: order[desc asc] to get Post ids ordered by event time
+        in: query
+        name: order
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - get successfully
+        "500":
+          description: Fail - internal error
+      security:
+      - ApiKeyAuth: []
+      summary: get all bookmarked Post ids.
+      tags:
+      - Bookmark
+  /api/bookmark/status/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Post ID (event id) for checking bookmark status
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - get bookmark status successfully
+        "500":
+          description: Fail - internal error
+      security:
+      - ApiKeyAuth: []
+      summary: get current login user's bookmark status for a post.
+      tags:
+      - Bookmark
+  /api/bookmark/toggle/{id}:
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - description: Post ID (event id) for toggling a bookmark
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - toggled bookmark successfully
+        "500":
+          description: Fail - internal error
+      security:
+      - ApiKeyAuth: []
+      summary: add or remove a personal bookmark for a post.
+      tags:
+      - Bookmark
   /api/file/auth/file-items:
     get:
       consumes:
@@ -292,6 +357,100 @@ paths:
       summary: upload file action via form file input.
       tags:
       - File
+  /api/follow/follower:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: followee Post ID
+        in: query
+        name: followee
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - get successfully
+        "500":
+          description: Fail - internal error
+      security:
+      - ApiKeyAuth: []
+      summary: get a specified Post follower-Post id group.
+      tags:
+      - Follow
+  /api/manage/delete:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: Post ID for deleting
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - delete successfully
+        "400":
+          description: Fail - incorrect query param id
+        "500":
+          description: Fail - internal error
+      security:
+      - ApiKeyAuth: []
+      summary: delete one Post content.
+      tags:
+      - Manage
+  /api/manage/erase:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: Post ID for erasing
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - erase successfully
+        "400":
+          description: Fail - incorrect query param id
+        "500":
+          description: Fail - internal error
+      security:
+      - ApiKeyAuth: []
+      summary: erase one Post content permanently.
+      tags:
+      - Manage
+  /api/manage/own:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: time period for query, format is 'yyyymm', e.g. '202206'. if
+          missing, current yyyymm applies
+        in: query
+        name: period
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - get successfully
+        "400":
+          description: Fail - incorrect query param type
+        "500":
+          description: Fail - internal error
+      security:
+      - ApiKeyAuth: []
+      summary: get own Post id group in one specific time period.
+      tags:
+      - Manage
   /api/retrieve/all-id:
     get:
       consumes:
@@ -432,6 +591,50 @@ paths:
       summary: get this api service version
       tags:
       - System
+  /api/thumbs-up/status/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Post ID (event id) for checking thumbs-up status
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - get thumbs-up status successfully
+        "500":
+          description: Fail - internal error
+      security:
+      - ApiKeyAuth: []
+      summary: get current login user's thumbs-up status for a post.
+      tags:
+      - ThumbsUp
+  /api/thumbs-up/toggle/{id}:
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - description: Post ID (event id) for adding or removing thumbs-up
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - added or removed thumb successfully
+        "500":
+          description: Fail - internal error
+      security:
+      - ApiKeyAuth: []
+      summary: toggle a personal thumbs-up for a post.
+      tags:
+      - ThumbsUp
   /api/user/auth/avatar:
     get:
       consumes:

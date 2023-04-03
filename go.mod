@@ -3,7 +3,7 @@ module github.com/wismed-web/vhub-api
 go 1.20
 
 require (
-	github.com/digisan/event-mgr v0.2.2
+	github.com/digisan/event-mgr v0.2.4
 	github.com/digisan/file-mgr v0.3.4
 	github.com/digisan/go-config v0.2.4
 	github.com/digisan/go-generics v0.3.5

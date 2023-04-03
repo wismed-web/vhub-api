@@ -227,6 +227,113 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/bookmark/marked": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Bookmark"
+                ],
+                "summary": "get all bookmarked Post ids.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "order[desc asc] to get Post ids ordered by event time",
+                        "name": "order",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - get successfully"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
+        "/api/bookmark/status/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Bookmark"
+                ],
+                "summary": "get current login user's bookmark status for a post.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Post ID (event id) for checking bookmark status",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - get bookmark status successfully"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
+        "/api/bookmark/toggle/{id}": {
+            "patch": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Bookmark"
+                ],
+                "summary": "add or remove a personal bookmark for a post.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Post ID (event id) for toggling a bookmark",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - toggled bookmark successfully"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
         "/api/file/auth/file-items": {
             "get": {
                 "security": [
@@ -462,6 +569,158 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/follow/follower": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Follow"
+                ],
+                "summary": "get a specified Post follower-Post id group.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "followee Post ID",
+                        "name": "followee",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - get successfully"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
+        "/api/manage/delete": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Manage"
+                ],
+                "summary": "delete one Post content.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Post ID for deleting",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - delete successfully"
+                    },
+                    "400": {
+                        "description": "Fail - incorrect query param id"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
+        "/api/manage/erase": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Manage"
+                ],
+                "summary": "erase one Post content permanently.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Post ID for erasing",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - erase successfully"
+                    },
+                    "400": {
+                        "description": "Fail - incorrect query param id"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
+        "/api/manage/own": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Manage"
+                ],
+                "summary": "get own Post id group in one specific time period.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "time period for query, format is 'yyyymm', e.g. '202206'. if missing, current yyyymm applies",
+                        "name": "period",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - get successfully"
+                    },
+                    "400": {
+                        "description": "Fail - incorrect query param type"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
         "/api/retrieve/all-id": {
             "get": {
                 "security": [
@@ -685,6 +944,78 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "OK - get its version"
+                    }
+                }
+            }
+        },
+        "/api/thumbs-up/status/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ThumbsUp"
+                ],
+                "summary": "get current login user's thumbs-up status for a post.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Post ID (event id) for checking thumbs-up status",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - get thumbs-up status successfully"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
+        "/api/thumbs-up/toggle/{id}": {
+            "patch": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ThumbsUp"
+                ],
+                "summary": "toggle a personal thumbs-up for a post.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Post ID (event id) for adding or removing thumbs-up",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - added or removed thumb successfully"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
                     }
                 }
             }
@@ -1028,7 +1359,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "WISMED V-HUB API",
-	Description:      "This is WISMED V-HUB backend-api server. Updated@ 04-02-2023 08:29:59",
+	Description:      "This is WISMED V-HUB backend-api server. Updated@ 04-03-2023 16:04:44",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }
