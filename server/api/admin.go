@@ -11,8 +11,9 @@ import (
 func AdminHandler(r *echo.Group) {
 
 	var mGET = map[string]echo.HandlerFunc{
-		"/user/list/:fields":        ad.ListUser,
-		"/user/onlines":             ad.ListOnlineUser,
+		"/user/list/:fields": ad.ListUser,
+		"/user/onlines":      ad.ListOnlineUser,
+		"/user/avatar":       ad.GetAvatar,
 		// "/user/action-list/:action": ad.ListUserAction,
 	}
 

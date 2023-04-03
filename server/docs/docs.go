@@ -78,6 +78,48 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/admin/user/avatar": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "get any user's avatar src as base64",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user registered unique name",
+                        "name": "uname",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - get avatar src base64"
+                    },
+                    "400": {
+                        "description": "Fail - cannot find user via given uname"
+                    },
+                    "404": {
+                        "description": "Fail - avatar is empty"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
         "/api/admin/user/list/{fields}": {
             "get": {
                 "security": [
@@ -1359,7 +1401,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "WISMED V-HUB API",
-	Description:      "This is WISMED V-HUB backend-api server. Updated@ 04-03-2023 16:04:44",
+	Description:      "This is WISMED V-HUB backend-api server. Updated@ 04-04-2023 07:43:02",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

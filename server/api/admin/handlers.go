@@ -284,6 +284,49 @@ func UpdateUser(c echo.Context) error {
 	return c.JSON(http.StatusOK, fmt.Sprintf("'%v' has been updated", user))
 }
 
+// @Title    get any user's avatar
+// @Summary  get any user's avatar src as base64
+// @Description
+// @Tags     Admin
+// @Accept   json
+// @Produce  json
+// @Param    uname query string true "user registered unique name"
+// @Success  200 "OK - get avatar src base64"
+// @Failure  400 "Fail - cannot find user via given uname"
+// @Failure  404 "Fail - avatar is empty"
+// @Failure  500 "Fail - internal error"
+// @Router   /api/admin/user/avatar [get]
+// @Security ApiKeyAuth
+func GetAvatar(c echo.Context) error {
+
+	var (
+		uname = c.QueryParam("uname")
+	)
+
+	if len(uname) == 0 {
+		return c.String(http.StatusBadRequest, "[uname] cannot be empty")
+	}
+
+	user, ok, err := u.LoadAnyUser(uname)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
+	if !ok {
+		return c.String(http.StatusBadRequest, fmt.Sprintf("cannot find user [%v]", uname))
+	}
+
+	// if fetch extra fields from a user, must make sure it is full fields
+	b64, aType := user.AvatarBase64(false)
+	if len(b64) == 0 || len(aType) == 0 {
+		return c.String(http.StatusNotFound, "avatar is empty")
+	}
+
+	src := fmt.Sprintf("data:%s;base64,%s", aType, b64)
+	return c.JSON(http.StatusOK, struct {
+		Src string `json:"src"`
+	}{Src: src})
+}
+
 // @Title   list user's action record
 // @Summary list user's action record
 // @Description

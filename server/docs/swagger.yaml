@@ -2,7 +2,7 @@ host: api.V-HUB.net
 info:
   contact:
     name: API Support
-  description: This is WISMED V-HUB backend-api server. Updated@ 04-03-2023 16:04:44
+  description: This is WISMED V-HUB backend-api server. Updated@ 04-04-2023 07:43:02
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -43,6 +43,32 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: send email by 3rd service
+      tags:
+      - Admin
+  /api/admin/user/avatar:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: user registered unique name
+        in: query
+        name: uname
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - get avatar src base64
+        "400":
+          description: Fail - cannot find user via given uname
+        "404":
+          description: Fail - avatar is empty
+        "500":
+          description: Fail - internal error
+      security:
+      - ApiKeyAuth: []
+      summary: get any user's avatar src as base64
       tags:
       - Admin
   /api/admin/user/list/{fields}:
