@@ -182,7 +182,7 @@ func ListUser(c echo.Context) error {
 // @Failure 401 "Fail - unauthorized error"
 // @Failure 403 "Fail - forbidden error"
 // @Failure 500 "Fail - internal error"
-// @Router /api/admin/user/onlines [get]
+// @Router /api/admin/user/online [get]
 // @Security ApiKeyAuth
 func ListOnlineUser(c echo.Context) error {
 
@@ -203,29 +203,29 @@ func ListOnlineUser(c echo.Context) error {
 		rUname = wc2re(wUname)
 	)
 
-	onlines, err := u.OnlineUsers()
-	// for _, user := range onlines {
+	online, err := u.OnlineUsers()
+	// for _, user := range online {
 	// 	fmt.Println(user)
 	// }
 	if err != nil {
 		return c.String(http.StatusInternalServerError, err.Error())
 	}
 
-	FilterFast(&onlines, func(i int, e *u.UserOnline) bool {
+	FilterFast(&online, func(i int, e *u.UserOnline) bool {
 		if len(wUname) > 0 && !rUname.MatchString(e.Uname) {
 			return false
 		}
 		return true
 	})
 
-	return c.JSON(http.StatusOK, onlines)
+	return c.JSON(http.StatusOK, online)
 }
 
 // @Title   update user's info
 // @Summary update user's info by fields & its values
 // @Description
 // @Tags    Admin
-// @Accept  json
+// @Accept  multipart/form-data
 // @Produce json
 // @Param   uname  formData string true "unique user name want to be updated"
 // @Param   fields path     string true "which user struct fields (sep by ',') want to be updated. (fields must be IDENTICAL TO STRUCT FIELDS !!!)"
@@ -298,15 +298,12 @@ func UpdateUser(c echo.Context) error {
 // @Router   /api/admin/user/avatar [get]
 // @Security ApiKeyAuth
 func GetAvatar(c echo.Context) error {
-
 	var (
 		uname = c.QueryParam("uname")
 	)
-
 	if len(uname) == 0 {
 		return c.String(http.StatusBadRequest, "[uname] cannot be empty")
 	}
-
 	user, ok, err := u.LoadAnyUser(uname)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, err.Error())
@@ -314,17 +311,89 @@ func GetAvatar(c echo.Context) error {
 	if !ok {
 		return c.String(http.StatusBadRequest, fmt.Sprintf("cannot find user [%v]", uname))
 	}
-
 	// if fetch extra fields from a user, must make sure it is full fields
 	b64, aType := user.AvatarBase64(false)
 	if len(b64) == 0 || len(aType) == 0 {
 		return c.String(http.StatusNotFound, "avatar is empty")
 	}
-
-	src := fmt.Sprintf("data:%s;base64,%s", aType, b64)
 	return c.JSON(http.StatusOK, struct {
 		Src string `json:"src"`
-	}{Src: src})
+	}{
+		Src: fmt.Sprintf("data:%s;base64,%s", aType, b64),
+	})
+}
+
+// @Title    get user info
+// @Summary  get any user info
+// @Description
+// @Tags     Admin
+// @Accept   json
+// @Produce  json
+// @Param    uname query string true "user registered unique name"
+// @Success  200   "OK - get info"
+// @Failure  400   "Fail - cannot find user via given uname"
+// @Failure  500   "Fail - internal error"
+// @Router   /api/admin/user/info [get]
+// @Security ApiKeyAuth
+func GetUserInfo(c echo.Context) error {
+	var (
+		uname = c.QueryParam("uname")
+	)
+	if len(uname) == 0 {
+		return c.String(http.StatusBadRequest, "[uname] cannot be empty")
+	}
+	user, ok, err := u.LoadAnyUser(uname)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
+	if !ok {
+		return c.String(http.StatusBadRequest, fmt.Sprintf("cannot find user [%v]", uname))
+	}
+	return c.JSON(http.StatusOK, *user)
+}
+
+// @Title    get user fields value
+// @Summary  get any user some fields value
+// @Description
+// @Tags     Admin
+// @Accept   json
+// @Produce  json
+// @Param    uname  query string true "user registered unique name"
+// @Param    fields path  string true "which user struct fields (sep by ',') want to be fetched. (fields must be IDENTICAL TO STRUCT FIELDS !!!)"
+// @Success  200    "OK - get info"
+// @Failure  400    "Fail - cannot find user via given uname"
+// @Failure  500    "Fail - internal error"
+// @Router   /api/admin/user/field-value/{fields} [get]
+// @Security ApiKeyAuth
+func GetUserFieldValue(c echo.Context) error {
+	var (
+		uname  = c.QueryParam("uname") // ***
+		fields = c.Param("fields")     // sep by ','
+		err    error
+	)
+	if fields, err = url.QueryUnescape(fields); err != nil {
+		c.String(http.StatusBadRequest, err.Error())
+	}
+	if len(uname) == 0 {
+		return c.String(http.StatusBadRequest, "[uname] cannot be empty")
+	}
+	user, ok, err := u.LoadAnyUser(uname)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
+	if !ok {
+		return c.String(http.StatusBadRequest, fmt.Sprintf("cannot find user [%v]", uname))
+	}
+	rt := make(map[string]any)
+	// url 'field' must be exportable & identical to struct definition !!!
+	for _, field := range strings.Split(fields, ",") {
+		val, err := FieldValue(*user, field)
+		if err != nil {
+			return c.String(http.StatusBadRequest, fmt.Sprintf("cannot fetch field [%v] from [%v]", field, uname))
+		}
+		rt[field] = val
+	}
+	return c.JSON(http.StatusOK, rt)
 }
 
 // @Title   list user's action record

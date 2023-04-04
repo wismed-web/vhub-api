@@ -120,6 +120,91 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/admin/user/field-value/{fields}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "get any user some fields value",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user registered unique name",
+                        "name": "uname",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "which user struct fields (sep by ',') want to be fetched. (fields must be IDENTICAL TO STRUCT FIELDS !!!)",
+                        "name": "fields",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - get info"
+                    },
+                    "400": {
+                        "description": "Fail - cannot find user via given uname"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
+        "/api/admin/user/info": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "get any user info",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user registered unique name",
+                        "name": "uname",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - get info"
+                    },
+                    "400": {
+                        "description": "Fail - cannot find user via given uname"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
         "/api/admin/user/list/{fields}": {
             "get": {
                 "security": [
@@ -179,7 +264,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/admin/user/onlines": {
+        "/api/admin/user/online": {
             "get": {
                 "security": [
                     {
@@ -228,7 +313,7 @@ const docTemplate = `{
                     }
                 ],
                 "consumes": [
-                    "application/json"
+                    "multipart/form-data"
                 ],
                 "produces": [
                     "application/json"
@@ -1401,7 +1486,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "WISMED V-HUB API",
-	Description:      "This is WISMED V-HUB backend-api server. Updated@ 04-04-2023 07:43:02",
+	Description:      "This is WISMED V-HUB backend-api server. Updated@ 04-04-2023 10:53:08",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }
