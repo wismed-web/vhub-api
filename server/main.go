@@ -140,7 +140,7 @@ func echoHost(done chan<- string) {
 			"/api/manage",
 			"/api/bookmark",
 			"/api/follow",
-			"/api/thumbs-up",
+			"/api/interact",
 		}
 		handlers := []func(*echo.Group){
 			api.AdminHandler,
@@ -151,7 +151,7 @@ func echoHost(done chan<- string) {
 			api.ManageHandler,
 			api.BookmarkHandler,
 			api.FollowHandler,
-			api.ThumbsUpHandler,
+			api.InteractHandler,
 		}
 		for i, group := range groups {
 			r := e.Group(group)

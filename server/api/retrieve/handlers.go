@@ -39,16 +39,24 @@ func BatchID(c echo.Context) error {
 	}
 
 	switch by {
-	case "time":
+	case "time", "tm":
 		ids, err := em.FetchEvtIDsByTm(value + "m")
 		if err != nil {
 			return c.String(http.StatusInternalServerError, err.Error())
 		}
 		return c.JSON(http.StatusOK, ids)
-	case "count":
-		ids, err := em.FetchEvtIDsByCnt(int(n))
+	case "count", "cnt":
+		ids, err := em.FetchEvtIDsByCnt(int(n), "30m", "1h", "2h", "6h", "12h", "24h")
 		if err != nil {
 			return c.String(http.StatusInternalServerError, err.Error())
+		}
+		if len(ids) < n {
+			if ids, err = em.FetchEvtIDs(nil); err != nil {
+				return c.String(http.StatusInternalServerError, err.Error())
+			}
+			if len(ids) > n {
+				ids = ids[:n]
+			}
 		}
 		return c.JSON(http.StatusOK, ids)
 	default:

@@ -2,22 +2,22 @@ package api
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/wismed-web/vhub-api/server/api/thumbsup"
+	"github.com/wismed-web/vhub-api/server/api/interact"
 )
 
 // register to main echo Group
 
-// "/api/thumbs-up"
-func ThumbsUpHandler(e *echo.Group) {
+// "/api/interact"
+func InteractHandler(e *echo.Group) {
 
 	var mGET = map[string]echo.HandlerFunc{
-		"/status/:id": thumbsup.Status,
+		"/:action/status/:id": interact.Status,
 	}
 	var mPOST = map[string]echo.HandlerFunc{}
 	var mPUT = map[string]echo.HandlerFunc{}
 	var mDELETE = map[string]echo.HandlerFunc{}
 	var mPATCH = map[string]echo.HandlerFunc{
-		"/toggle/:id": thumbsup.ThumbsUp,
+		"/:action/toggle/:id": interact.Toggle,
 	}
 
 	// ------------------------------------------------------- //

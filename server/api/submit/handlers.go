@@ -62,7 +62,7 @@ func Upload(c echo.Context) error {
 
 	P := new(Post)
 	if err := c.Bind(P); err != nil {
-		lk.Warn("incorrect Uploaded Post format: " + err.Error())
+		lk.Warn("incorrect Uploaded Post Format: %v", err.Error())
 		return c.String(http.StatusBadRequest, "incorrect Post format: "+err.Error())
 	}
 	lk.Log("Uploading ---> [%s] --- %v", uname, P)
