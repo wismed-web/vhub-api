@@ -46,7 +46,7 @@ func BatchID(c echo.Context) error {
 		}
 		return c.JSON(http.StatusOK, ids)
 	case "count":
-		ids, err := em.FetchEvtIDsByCnt(int(n), "")
+		ids, err := em.FetchEvtIDsByCnt(int(n))
 		if err != nil {
 			return c.String(http.StatusInternalServerError, err.Error())
 		}

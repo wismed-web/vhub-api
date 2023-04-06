@@ -3,7 +3,7 @@ module github.com/wismed-web/vhub-api
 go 1.20
 
 require (
-	github.com/digisan/event-mgr v0.2.4
+	github.com/digisan/event-mgr v0.2.5
 	github.com/digisan/file-mgr v0.3.4
 	github.com/digisan/go-config v0.2.4
 	github.com/digisan/go-generics v0.3.5
@@ -49,9 +49,9 @@ require (
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/jtguibas/cinema v0.0.0-20200208054232-ca271f28a020 // indirect
-	github.com/klauspost/compress v1.16.3 // indirect
+	github.com/klauspost/compress v1.16.4 // indirect
 	github.com/labstack/gommon v0.4.0 // indirect
-	github.com/leodido/go-urn v1.2.2 // indirect
+	github.com/leodido/go-urn v1.2.3 // indirect
 	github.com/mailgun/mailgun-go/v4 v4.8.2 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
@@ -72,7 +72,7 @@ require (
 	go.opencensus.io v0.24.0 // indirect
 	golang.org/x/crypto v0.7.0 // indirect
 	golang.org/x/net v0.8.0 // indirect
-	golang.org/x/sys v0.6.0 // indirect
+	golang.org/x/sys v0.7.0 // indirect
 	golang.org/x/text v0.8.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
 	golang.org/x/tools v0.7.0 // indirect
