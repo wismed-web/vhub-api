@@ -2,7 +2,7 @@ host: api.V-HUB.net
 info:
   contact:
     name: API Support
-  description: This is WISMED V-HUB backend-api server. Updated@ 04-07-2023 10:46:10
+  description: This is WISMED V-HUB backend-api server. Updated@ 04-07-2023 18:12:46
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -260,7 +260,7 @@ paths:
           description: Fail - internal error
       security:
       - ApiKeyAuth: []
-      summary: get current login user's bookmark status for a post.
+      summary: get current login user's bookmark status for a Post.
       tags:
       - Bookmark
   /api/bookmark/toggle/{id}:
@@ -282,7 +282,7 @@ paths:
           description: Fail - internal error
       security:
       - ApiKeyAuth: []
-      summary: add or remove a personal bookmark for a post.
+      summary: add or remove a personal bookmark for a Post.
       tags:
       - Bookmark
   /api/file/auth/file-items:
@@ -459,12 +459,40 @@ paths:
       summary: get a specified Post follower-Post id group.
       tags:
       - Follow
+  /api/interact/{action}/record/{id}:
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - description: Action Name [Seen] to be added for a Post
+        in: path
+        name: action
+        required: true
+        type: string
+      - description: Post ID (event id) for this action
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - added one action successfully
+        "500":
+          description: Fail - internal error
+      security:
+      - ApiKeyAuth: []
+      summary: record an action like 'Seen' of a Post.
+      tags:
+      - Interact
   /api/interact/{action}/status/{id}:
     get:
       consumes:
       - application/json
       parameters:
-      - description: Action Name [ThumbsUp, Like] to be added or removed for a Post
+      - description: Action Name [ThumbsUp, HeartLike, Seen] to be added or removed
+          for a Post
         in: path
         name: action
         required: true
@@ -483,8 +511,8 @@ paths:
           description: Fail - internal error
       security:
       - ApiKeyAuth: []
-      summary: get current login user's one action status like 'ThumbsUp', 'Like'
-        of a Post.
+      summary: get current login user's one action status like 'ThumbsUp', 'HeartLike',
+        'Seen' of a Post.
       tags:
       - Interact
   /api/interact/{action}/toggle/{id}:
@@ -492,7 +520,8 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: Action Name [ThumbsUp, Like] to be added or removed for a Post
+      - description: Action Name [ThumbsUp, HeartLike] to be added or removed for
+          a Post
         in: path
         name: action
         required: true
@@ -511,7 +540,7 @@ paths:
           description: Fail - internal error
       security:
       - ApiKeyAuth: []
-      summary: toggle an action like 'ThumbsUp', 'Like' of a Post.
+      summary: toggle an action like 'ThumbsUp', 'HeartLike' of a Post.
       tags:
       - Interact
   /api/manage/delete:

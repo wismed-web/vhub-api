@@ -27,17 +27,14 @@ import (
 // @Router /api/retrieve/batch-id [get]
 // @Security ApiKeyAuth
 func BatchID(c echo.Context) error {
-
 	var (
 		by    = c.QueryParam("by")
 		value = c.QueryParam("value")
 	)
-
 	n, ok := AnyTryToType[int](value)
 	if !ok {
 		return c.String(http.StatusBadRequest, "'value' must be a valid number for both time(minutes) & count")
 	}
-
 	switch by {
 	case "time", "tm":
 		ids, err := em.FetchEvtIDsByTm(value + "m")
@@ -76,12 +73,10 @@ func BatchID(c echo.Context) error {
 // @Router /api/retrieve/all-id [get]
 // @Security ApiKeyAuth
 func AllID(c echo.Context) error {
-
 	ids, err := em.FetchEvtIDs(nil)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, err.Error())
 	}
-
 	// lk.Log("IdAll ---> %d : %v", len(ids), ids)
 	return c.JSON(http.StatusOK, ids)
 }
@@ -100,17 +95,13 @@ func AllID(c echo.Context) error {
 // @Router /api/retrieve/post [get]
 // @Security ApiKeyAuth
 func OnePost(c echo.Context) error {
-
 	var (
 		id = c.QueryParam("id")
 	)
-
 	lk.Log("Into GetOne, event id is %v", id)
-
 	if len(id) == 0 {
 		return c.String(http.StatusBadRequest, "'id' cannot be empty")
 	}
-
 	event, err := em.FetchEvent(true, id)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, err.Error())
@@ -121,15 +112,12 @@ func OnePost(c echo.Context) error {
 	if len(event.RawJSON) == 0 {
 		return c.JSON(http.StatusOK, fmt.Sprintf("Post is empty @%s", id))
 	}
-
 	////////////////////////////////////
-
 	// set up event content, i.e. Post
 	P := &Post{}
 	if err := json.Unmarshal([]byte(event.RawJSON), P); err != nil {
 		lk.Warn("Unmarshal Post Error, event is %v", event)
 		return c.String(http.StatusInternalServerError, "convert RawJSON to [Post] Unmarshal error")
 	}
-
 	return c.JSON(http.StatusOK, event)
 }

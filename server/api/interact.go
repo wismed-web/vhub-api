@@ -18,6 +18,7 @@ func InteractHandler(e *echo.Group) {
 	var mDELETE = map[string]echo.HandlerFunc{}
 	var mPATCH = map[string]echo.HandlerFunc{
 		"/:action/toggle/:id": interact.Toggle,
+		"/:action/record/:id": interact.Record,
 	}
 
 	// ------------------------------------------------------- //

@@ -8,8 +8,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @Title toggle a bookmark for a post
-// @Summary add or remove a personal bookmark for a post.
+// @Title   toggle a bookmark for a Post
+// @Summary add or remove a personal bookmark for a Post.
 // @Description
 // @Tags    Bookmark
 // @Accept  json
@@ -20,12 +20,10 @@ import (
 // @Router /api/bookmark/toggle/{id} [patch]
 // @Security ApiKeyAuth
 func Bookmark(c echo.Context) error {
-
 	invoker, err := u.Invoker(c)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, err.Error())
 	}
-
 	var (
 		uname = invoker.UName
 		id    = c.Param("id")
@@ -41,8 +39,8 @@ func Bookmark(c echo.Context) error {
 	return c.JSON(http.StatusOK, has)
 }
 
-// @Title get current user's bookmark status for a post
-// @Summary get current login user's bookmark status for a post.
+// @Title   get current user's bookmark status for a Post
+// @Summary get current login user's bookmark status for a Post.
 // @Description
 // @Tags    Bookmark
 // @Accept  json
@@ -53,12 +51,10 @@ func Bookmark(c echo.Context) error {
 // @Router /api/bookmark/status/{id} [get]
 // @Security ApiKeyAuth
 func Status(c echo.Context) error {
-
 	invoker, err := u.Invoker(c)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, err.Error())
 	}
-
 	var (
 		uname = invoker.UName
 		id    = c.Param("id")
@@ -70,7 +66,7 @@ func Status(c echo.Context) error {
 	return c.JSON(http.StatusOK, bm.HasEvent(id))
 }
 
-// @Title get bookmarked Posts
+// @Title   get bookmarked Posts
 // @Summary get all bookmarked Post ids.
 // @Description
 // @Tags    Bookmark
@@ -82,17 +78,14 @@ func Status(c echo.Context) error {
 // @Router /api/bookmark/marked [get]
 // @Security ApiKeyAuth
 func Marked(c echo.Context) error {
-
 	invoker, err := u.Invoker(c)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, err.Error())
 	}
-
 	var (
 		uname = invoker.UName
 		order = c.QueryParam("order")
 	)
-
 	bm, err := em.NewBookmark(uname, true)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, err.Error())

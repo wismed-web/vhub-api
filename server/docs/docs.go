@@ -405,7 +405,7 @@ const docTemplate = `{
                 "tags": [
                     "Bookmark"
                 ],
-                "summary": "get current login user's bookmark status for a post.",
+                "summary": "get current login user's bookmark status for a Post.",
                 "parameters": [
                     {
                         "type": "string",
@@ -441,7 +441,7 @@ const docTemplate = `{
                 "tags": [
                     "Bookmark"
                 ],
-                "summary": "add or remove a personal bookmark for a post.",
+                "summary": "add or remove a personal bookmark for a Post.",
                 "parameters": [
                     {
                         "type": "string",
@@ -732,6 +732,49 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/interact/{action}/record/{id}": {
+            "patch": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Interact"
+                ],
+                "summary": "record an action like 'Seen' of a Post.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Action Name [Seen] to be added for a Post",
+                        "name": "action",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Post ID (event id) for this action",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - added one action successfully"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
         "/api/interact/{action}/status/{id}": {
             "get": {
                 "security": [
@@ -748,11 +791,11 @@ const docTemplate = `{
                 "tags": [
                     "Interact"
                 ],
-                "summary": "get current login user's one action status like 'ThumbsUp', 'Like' of a Post.",
+                "summary": "get current login user's one action status like 'ThumbsUp', 'HeartLike', 'Seen' of a Post.",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Action Name [ThumbsUp, Like] to be added or removed for a Post",
+                        "description": "Action Name [ThumbsUp, HeartLike, Seen] to be added or removed for a Post",
                         "name": "action",
                         "in": "path",
                         "required": true
@@ -791,11 +834,11 @@ const docTemplate = `{
                 "tags": [
                     "Interact"
                 ],
-                "summary": "toggle an action like 'ThumbsUp', 'Like' of a Post.",
+                "summary": "toggle an action like 'ThumbsUp', 'HeartLike' of a Post.",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Action Name [ThumbsUp, Like] to be added or removed for a Post",
+                        "description": "Action Name [ThumbsUp, HeartLike] to be added or removed for a Post",
                         "name": "action",
                         "in": "path",
                         "required": true
@@ -1500,7 +1543,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "WISMED V-HUB API",
-	Description:      "This is WISMED V-HUB backend-api server. Updated@ 04-07-2023 10:46:10",
+	Description:      "This is WISMED V-HUB backend-api server. Updated@ 04-07-2023 18:12:46",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }
