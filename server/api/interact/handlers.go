@@ -10,12 +10,13 @@ import (
 )
 
 // @Title   toggle an action
-// @Summary toggle an action like 'thumbs-up', 'like' for a post.
+// @Summary toggle an action like 'ThumbsUp', 'Like' of a Post.
 // @Description
 // @Tags    Interact
 // @Accept  json
 // @Produce json
-// @Param   id path string true "Post ID (event id) for adding or removing an action"
+// @Param   action path string true "Action Name [ThumbsUp, Like] to be added or removed for a Post"
+// @Param   id     path string true "Post ID (event id) for this action"
 // @Success 200 "OK - added or removed one action successfully"
 // @Failure 500 "Fail - internal error"
 // @Router /api/interact/{action}/toggle/{id} [patch]
@@ -56,13 +57,14 @@ func Toggle(c echo.Context) error {
 	})
 }
 
-// @Title   current user's one action status
-// @Summary get current login user's one action status like 'thumbs-up', 'like' for a post.
+// @Title   one action status
+// @Summary get current login user's one action status like 'ThumbsUp', 'Like' of a Post.
 // @Description
 // @Tags    Interact
 // @Accept  json
 // @Produce json
-// @Param   id path string true "Post ID (event id) for checking an action status"
+// @Param   action path string true "Action Name [ThumbsUp, Like] to be added or removed for a Post"
+// @Param   id     path string true "Post ID (event id) for this action"
 // @Success 200 "OK - get one action status successfully"
 // @Failure 500 "Fail - internal error"
 // @Router /api/interact/{action}/status/{id} [get]
@@ -90,9 +92,9 @@ func Status(c echo.Context) error {
 		return c.String(http.StatusInternalServerError, err.Error())
 	}
 	return c.JSON(http.StatusOK, struct {
-		Action   string
-		ThumbsUp bool
-		Count    int
+		Action string
+		Did    bool
+		Count  int
 	}{
 		action,
 		has,

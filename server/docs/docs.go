@@ -732,6 +732,92 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/interact/{action}/status/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Interact"
+                ],
+                "summary": "get current login user's one action status like 'ThumbsUp', 'Like' of a Post.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Action Name [ThumbsUp, Like] to be added or removed for a Post",
+                        "name": "action",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Post ID (event id) for this action",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - get one action status successfully"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
+        "/api/interact/{action}/toggle/{id}": {
+            "patch": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Interact"
+                ],
+                "summary": "toggle an action like 'ThumbsUp', 'Like' of a Post.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Action Name [ThumbsUp, Like] to be added or removed for a Post",
+                        "name": "action",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Post ID (event id) for this action",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - added or removed one action successfully"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
         "/api/manage/delete": {
             "delete": {
                 "security": [
@@ -1075,78 +1161,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/thumbs-up/status/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "ThumbsUp"
-                ],
-                "summary": "get current login user's thumbs-up status for a post.",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Post ID (event id) for checking thumbs-up status",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK - get thumbs-up status successfully"
-                    },
-                    "500": {
-                        "description": "Fail - internal error"
-                    }
-                }
-            }
-        },
-        "/api/thumbs-up/toggle/{id}": {
-            "patch": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "ThumbsUp"
-                ],
-                "summary": "toggle a personal thumbs-up for a post.",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Post ID (event id) for adding or removing thumbs-up",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK - added or removed thumb successfully"
-                    },
-                    "500": {
-                        "description": "Fail - internal error"
-                    }
-                }
-            }
-        },
         "/api/user/auth/avatar": {
             "get": {
                 "security": [
@@ -1486,7 +1500,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "WISMED V-HUB API",
-	Description:      "This is WISMED V-HUB backend-api server. Updated@ 04-06-2023 13:49:10",
+	Description:      "This is WISMED V-HUB backend-api server. Updated@ 04-07-2023 10:46:10",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

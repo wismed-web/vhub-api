@@ -51,11 +51,12 @@ func BatchID(c echo.Context) error {
 			return c.String(http.StatusInternalServerError, err.Error())
 		}
 		if len(ids) < n {
-			if ids, err = em.FetchEvtIDs(nil); err != nil {
+			idAll, err := em.FetchEvtIDs(nil)
+			if err != nil {
 				return c.String(http.StatusInternalServerError, err.Error())
 			}
-			if len(ids) > n {
-				ids = ids[:n]
+			if len(idAll) > n {
+				ids = idAll[:n]
 			}
 		}
 		return c.JSON(http.StatusOK, ids)
