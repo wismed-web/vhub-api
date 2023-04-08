@@ -12,14 +12,14 @@ import (
 	. "github.com/wismed-web/vhub-api/server/api/definition"
 )
 
-// @Title get a batch of Post id group
+// @Title   get a batch of Post id
 // @Summary get a batch of Post id group.
 // @Description
 // @Tags    Retrieve
 // @Accept  json
 // @Produce json
-// @Param   by    query string true "'time' or 'count'"
-// @Param   value query string true "recent [value] minutes for time OR most recent [value] count"
+// @Param   by    query string true "'time'"
+// @Param   value query string true "recent [value] minutes for time"
 // @Success 200 "OK - get successfully"
 // @Failure 400 "Fail - incorrect query param type"
 // @Failure 404 "Fail - not found"
@@ -31,9 +31,9 @@ func BatchID(c echo.Context) error {
 		by    = c.QueryParam("by")
 		value = c.QueryParam("value")
 	)
-	n, ok := AnyTryToType[int](value)
+	_, ok := AnyTryToType[int](value)
 	if !ok {
-		return c.String(http.StatusBadRequest, "'value' must be a valid number for both time(minutes) & count")
+		return c.String(http.StatusBadRequest, "'value' must be a valid number for both time(minutes)")
 	}
 	switch by {
 	case "time", "tm":
@@ -42,23 +42,23 @@ func BatchID(c echo.Context) error {
 			return c.String(http.StatusInternalServerError, err.Error())
 		}
 		return c.JSON(http.StatusOK, ids)
-	case "count", "cnt":
-		ids, err := em.FetchEvtIDsByCnt(int(n), "30m", "1h", "2h", "6h", "12h", "24h")
-		if err != nil {
-			return c.String(http.StatusInternalServerError, err.Error())
-		}
-		if len(ids) < n {
-			idAll, err := em.FetchEvtIDs(nil)
-			if err != nil {
-				return c.String(http.StatusInternalServerError, err.Error())
-			}
-			if len(idAll) > n {
-				ids = idAll[:n]
-			}
-		}
-		return c.JSON(http.StatusOK, ids)
+	// case "count", "cnt":
+	// 	ids, err := em.FetchEvtIDsByCnt(int(n), "30m", "1h", "2h", "6h", "12h", "24h")
+	// 	if err != nil {
+	// 		return c.String(http.StatusInternalServerError, err.Error())
+	// 	}
+	// 	if len(ids) < n {
+	// 		idAll, err := em.FetchEvtIDs(nil)
+	// 		if err != nil {
+	// 			return c.String(http.StatusInternalServerError, err.Error())
+	// 		}
+	// 		if len(idAll) > n {
+	// 			ids = idAll[:n]
+	// 		}
+	// 	}
+	// 	return c.JSON(http.StatusOK, ids)
 	default:
-		return c.String(http.StatusBadRequest, "'by' must be one of [time, count]")
+		return c.String(http.StatusBadRequest, "'by' must be [time]")
 	}
 }
 

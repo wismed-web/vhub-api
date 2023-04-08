@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is WISMED V-HUB backend-api server. Updated@ 04-07-2023 18:12:46",
+        "description": "This is WISMED V-HUB backend-api server. Updated@ 04-08-2023 20:24:04",
         "title": "WISMED V-HUB API",
         "contact": {
             "name": "API Support"
@@ -1016,14 +1016,14 @@
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "'time' or 'count'",
+                        "description": "'time'",
                         "name": "by",
                         "in": "query",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "recent [value] minutes for time OR most recent [value] count",
+                        "description": "recent [value] minutes for time",
                         "name": "value",
                         "in": "query",
                         "required": true

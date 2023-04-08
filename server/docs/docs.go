@@ -1024,14 +1024,14 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "'time' or 'count'",
+                        "description": "'time'",
                         "name": "by",
                         "in": "query",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "recent [value] minutes for time OR most recent [value] count",
+                        "description": "recent [value] minutes for time",
                         "name": "value",
                         "in": "query",
                         "required": true
@@ -1543,7 +1543,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "WISMED V-HUB API",
-	Description:      "This is WISMED V-HUB backend-api server. Updated@ 04-07-2023 18:12:46",
+	Description:      "This is WISMED V-HUB backend-api server. Updated@ 04-08-2023 20:24:04",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

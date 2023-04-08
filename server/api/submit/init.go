@@ -14,5 +14,5 @@ var (
 func init() {
 	ctx, Cancel = context.WithCancel(context.Background())
 	em.InitDB("./data")
-	em.InitEventSpan("MINUTE", ctx)
+	em.InitEventSpan("TEN_MINUTE", ctx)
 }
