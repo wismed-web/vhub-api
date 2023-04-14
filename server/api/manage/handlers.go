@@ -21,15 +21,25 @@ import (
 // @Param   id   query string true "Post ID for deleting"
 // @Success 200 "OK - delete successfully"
 // @Failure 400 "Fail - incorrect query param id"
+// @Failure 405 "Fail - invoker's role is NOT in permit group"
 // @Failure 500 "Fail - internal error"
-// @Router /api/manage/delete [delete]
+// @Router /api/manage/delete/{id} [delete]
 // @Security ApiKeyAuth
 func DelOne(c echo.Context) error {
+
+	invoker, err := u.ToActiveFullUser(c)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
+	if NotIn(invoker.SysRole, "admin", "system") {
+		return c.String(http.StatusMethodNotAllowed, "only admin or system level users can do DELETE")
+	}
+
 	var (
-		id = c.QueryParam("id")
+		id = c.Param("id")
 	)
 	if len(id) == 0 {
-		return c.String(http.StatusBadRequest, "'id' cannot be empty")
+		return c.String(http.StatusBadRequest, "post 'id' cannot be empty")
 	}
 	n, err := em.DelEvent(id)
 	if err != nil {
@@ -47,15 +57,25 @@ func DelOne(c echo.Context) error {
 // @Param   id   query string true "Post ID for erasing"
 // @Success 200 "OK - erase successfully"
 // @Failure 400 "Fail - incorrect query param id"
+// @Failure 405 "Fail - invoker's role is NOT in permit group"
 // @Failure 500 "Fail - internal error"
-// @Router /api/manage/erase [delete]
+// @Router /api/manage/erase/{id} [delete]
 // @Security ApiKeyAuth
 func EraseOne(c echo.Context) error {
+
+	invoker, err := u.ToActiveFullUser(c)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
+	if NotIn(invoker.SysRole, "admin", "system") {
+		return c.String(http.StatusMethodNotAllowed, "only admin or system level users can do DELETE")
+	}
+
 	var (
-		id = c.QueryParam("id")
+		id = c.Param("id")
 	)
 	if len(id) == 0 {
-		return c.String(http.StatusBadRequest, "'id' cannot be empty")
+		return c.String(http.StatusBadRequest, "post 'id' cannot be empty")
 	}
 	n, err := em.EraseEvents(id)
 	if err != nil {
