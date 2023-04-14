@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is WISMED V-HUB backend-api server. Updated@ 04-13-2023 16:10:24",
+        "description": "This is WISMED V-HUB backend-api server. Updated@ 04-14-2023 16:22:48",
         "title": "WISMED V-HUB API",
         "contact": {
             "name": "API Support"
@@ -853,7 +853,7 @@
                 }
             }
         },
-        "/api/manage/delete": {
+        "/api/manage/delete/{id}": {
             "delete": {
                 "security": [
                     {
@@ -875,7 +875,7 @@
                         "type": "string",
                         "description": "Post ID for deleting",
                         "name": "id",
-                        "in": "query",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -884,7 +884,10 @@
                         "description": "OK - delete successfully"
                     },
                     "400": {
-                        "description": "Fail - incorrect query param id"
+                        "description": "Fail - incorrect path param 'id'"
+                    },
+                    "405": {
+                        "description": "Fail - invoker's role is NOT in permit group"
                     },
                     "500": {
                         "description": "Fail - internal error"
@@ -892,7 +895,7 @@
                 }
             }
         },
-        "/api/manage/erase": {
+        "/api/manage/erase/{id}": {
             "delete": {
                 "security": [
                     {
@@ -914,7 +917,7 @@
                         "type": "string",
                         "description": "Post ID for erasing",
                         "name": "id",
-                        "in": "query",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -923,7 +926,10 @@
                         "description": "OK - erase successfully"
                     },
                     "400": {
-                        "description": "Fail - incorrect query param id"
+                        "description": "Fail - incorrect path param 'id'"
+                    },
+                    "405": {
+                        "description": "Fail - invoker's role is NOT in permit group"
                     },
                     "500": {
                         "description": "Fail - internal error"

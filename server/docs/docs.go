@@ -861,7 +861,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/manage/delete": {
+        "/api/manage/delete/{id}": {
             "delete": {
                 "security": [
                     {
@@ -883,7 +883,7 @@ const docTemplate = `{
                         "type": "string",
                         "description": "Post ID for deleting",
                         "name": "id",
-                        "in": "query",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -892,7 +892,10 @@ const docTemplate = `{
                         "description": "OK - delete successfully"
                     },
                     "400": {
-                        "description": "Fail - incorrect query param id"
+                        "description": "Fail - incorrect path param 'id'"
+                    },
+                    "405": {
+                        "description": "Fail - invoker's role is NOT in permit group"
                     },
                     "500": {
                         "description": "Fail - internal error"
@@ -900,7 +903,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/manage/erase": {
+        "/api/manage/erase/{id}": {
             "delete": {
                 "security": [
                     {
@@ -922,7 +925,7 @@ const docTemplate = `{
                         "type": "string",
                         "description": "Post ID for erasing",
                         "name": "id",
-                        "in": "query",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -931,7 +934,10 @@ const docTemplate = `{
                         "description": "OK - erase successfully"
                     },
                     "400": {
-                        "description": "Fail - incorrect query param id"
+                        "description": "Fail - incorrect path param 'id'"
+                    },
+                    "405": {
+                        "description": "Fail - invoker's role is NOT in permit group"
                     },
                     "500": {
                         "description": "Fail - internal error"
@@ -1543,7 +1549,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "WISMED V-HUB API",
-	Description:      "This is WISMED V-HUB backend-api server. Updated@ 04-13-2023 16:10:24",
+	Description:      "This is WISMED V-HUB backend-api server. Updated@ 04-14-2023 16:22:48",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

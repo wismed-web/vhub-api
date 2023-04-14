@@ -18,9 +18,9 @@ import (
 // @Tags    Manage
 // @Accept  json
 // @Produce json
-// @Param   id   query string true "Post ID for deleting"
+// @Param   id   path string true "Post ID for deleting"
 // @Success 200 "OK - delete successfully"
-// @Failure 400 "Fail - incorrect query param id"
+// @Failure 400 "Fail - incorrect path param 'id'"
 // @Failure 405 "Fail - invoker's role is NOT in permit group"
 // @Failure 500 "Fail - internal error"
 // @Router /api/manage/delete/{id} [delete]
@@ -54,9 +54,9 @@ func DelOne(c echo.Context) error {
 // @Tags    Manage
 // @Accept  json
 // @Produce json
-// @Param   id   query string true "Post ID for erasing"
+// @Param   id   path string true "Post ID for erasing"
 // @Success 200 "OK - erase successfully"
-// @Failure 400 "Fail - incorrect query param id"
+// @Failure 400 "Fail - incorrect path param 'id'"
 // @Failure 405 "Fail - invoker's role is NOT in permit group"
 // @Failure 500 "Fail - internal error"
 // @Router /api/manage/erase/{id} [delete]
