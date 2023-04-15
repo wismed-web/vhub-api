@@ -12,6 +12,42 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// @Title   delete Post ID
+// @Summary delete one Post ID from timeline.
+// @Description
+// @Tags    Manage
+// @Accept  json
+// @Produce json
+// @Param   id   path string true "Post ID for deleting"
+// @Success 200 "OK - delete successfully"
+// @Failure 400 "Fail - incorrect path param 'id'"
+// @Failure 405 "Fail - invoker's role is NOT in permit group"
+// @Failure 500 "Fail - internal error"
+// @Router /api/manage/debug/delete/{id} [delete]
+// @Security ApiKeyAuth
+func DelGlobalPostID(c echo.Context) error {
+
+	invoker, err := u.ToActiveFullUser(c)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
+	if NotIn(invoker.SysRole, "system") {
+		return c.String(http.StatusMethodNotAllowed, "only system level users can do Debug DELETE")
+	}
+
+	var (
+		id = c.Param("id")
+	)
+	if len(id) == 0 {
+		return c.String(http.StatusBadRequest, "post 'id' cannot be empty")
+	}
+	deleted, err := em.DelGlobalEventID(id)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
+	return c.JSON(http.StatusOK, IF(len(deleted) == 1, fmt.Sprintf("<%s> is deleted", id), fmt.Sprintf("<%s> is not deleted successfully", id)))
+}
+
 // @Title   delete Post
 // @Summary delete one Post content.
 // @Description
@@ -25,7 +61,7 @@ import (
 // @Failure 500 "Fail - internal error"
 // @Router /api/manage/delete/{id} [delete]
 // @Security ApiKeyAuth
-func DelOne(c echo.Context) error {
+func DelOnePost(c echo.Context) error {
 
 	invoker, err := u.ToActiveFullUser(c)
 	if err != nil {
@@ -41,11 +77,11 @@ func DelOne(c echo.Context) error {
 	if len(id) == 0 {
 		return c.String(http.StatusBadRequest, "post 'id' cannot be empty")
 	}
-	n, err := em.DelEvent(id)
+	deleted, err := em.DelEvent(id)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, err.Error())
 	}
-	return c.JSON(http.StatusOK, IF(n == 1, fmt.Sprintf("<%s> is deleted", id), fmt.Sprintf("<%s> is not existing, nothing to delete", id)))
+	return c.JSON(http.StatusOK, IF(len(deleted) == 1, fmt.Sprintf("<%s> is deleted", id), fmt.Sprintf("<%s> is not deleted successfully", id)))
 }
 
 // @Title erase one Post content
@@ -61,7 +97,7 @@ func DelOne(c echo.Context) error {
 // @Failure 500 "Fail - internal error"
 // @Router /api/manage/erase/{id} [delete]
 // @Security ApiKeyAuth
-func EraseOne(c echo.Context) error {
+func EraseOnePost(c echo.Context) error {
 
 	invoker, err := u.ToActiveFullUser(c)
 	if err != nil {
@@ -77,11 +113,11 @@ func EraseOne(c echo.Context) error {
 	if len(id) == 0 {
 		return c.String(http.StatusBadRequest, "post 'id' cannot be empty")
 	}
-	n, err := em.EraseEvents(id)
+	erased, err := em.EraseEvent(id)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, err.Error())
 	}
-	return c.JSON(http.StatusOK, IF(n == 1, fmt.Sprintf("<%s> is erased permanently", id), fmt.Sprintf("<%s> is not existing, nothing to erase", id)))
+	return c.JSON(http.StatusOK, IF(len(erased) == 1, fmt.Sprintf("<%s> is erased permanently", id), fmt.Sprintf("<%s> is not erased successfully", id)))
 }
 
 // @Title get own Post id group in a specific period

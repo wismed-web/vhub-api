@@ -2,7 +2,7 @@ host: api.V-HUB.net
 info:
   contact:
     name: API Support
-  description: This is WISMED V-HUB backend-api server. Updated@ 04-14-2023 16:22:48
+  description: This is WISMED V-HUB backend-api server. Updated@ 04-15-2023 12:41:23
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -543,6 +543,32 @@ paths:
       summary: toggle an action like 'ThumbsUp', 'HeartLike' of a Post.
       tags:
       - Interact
+  /api/manage/debug/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: Post ID for deleting
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - delete successfully
+        "400":
+          description: Fail - incorrect path param 'id'
+        "405":
+          description: Fail - invoker's role is NOT in permit group
+        "500":
+          description: Fail - internal error
+      security:
+      - ApiKeyAuth: []
+      summary: delete one Post ID from timeline.
+      tags:
+      - Manage
   /api/manage/delete/{id}:
     delete:
       consumes:

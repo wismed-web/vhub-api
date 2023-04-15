@@ -16,8 +16,9 @@ func ManageHandler(e *echo.Group) {
 	var mPOST = map[string]echo.HandlerFunc{}
 	var mPUT = map[string]echo.HandlerFunc{}
 	var mDELETE = map[string]echo.HandlerFunc{
-		"/delete/:id": manage.DelOne,
-		"/erase/:id":  manage.EraseOne,
+		"/delete/:id":       manage.DelOnePost,
+		"/erase/:id":        manage.EraseOnePost,
+		"/debug/delete/:id": manage.DelGlobalPostID,
 	}
 	var mPATCH = map[string]echo.HandlerFunc{}
 

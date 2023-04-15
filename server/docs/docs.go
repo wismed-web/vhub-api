@@ -861,6 +861,48 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/manage/debug/delete/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Manage"
+                ],
+                "summary": "delete one Post ID from timeline.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Post ID for deleting",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - delete successfully"
+                    },
+                    "400": {
+                        "description": "Fail - incorrect path param 'id'"
+                    },
+                    "405": {
+                        "description": "Fail - invoker's role is NOT in permit group"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
         "/api/manage/delete/{id}": {
             "delete": {
                 "security": [
@@ -1549,7 +1591,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "WISMED V-HUB API",
-	Description:      "This is WISMED V-HUB backend-api server. Updated@ 04-14-2023 16:22:48",
+	Description:      "This is WISMED V-HUB backend-api server. Updated@ 04-15-2023 12:41:23",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }
