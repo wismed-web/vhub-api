@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is WISMED V-HUB backend-api server. Updated@ 04-15-2023 12:41:23",
+        "description": "This is WISMED V-HUB backend-api server. Updated@ 04-16-2023 18:43:04",
         "title": "WISMED V-HUB API",
         "contact": {
             "name": "API Support"
@@ -1086,6 +1086,33 @@
                     },
                     "404": {
                         "description": "Fail - not found"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
+        "/api/retrieve/debug/all-span": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Retrieve"
+                ],
+                "summary": "get all Span group.",
+                "responses": {
+                    "200": {
+                        "description": "OK - get successfully"
                     },
                     "500": {
                         "description": "Fail - internal error"

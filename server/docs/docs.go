@@ -1101,6 +1101,33 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/retrieve/debug/all-span": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Retrieve"
+                ],
+                "summary": "get all Span group.",
+                "responses": {
+                    "200": {
+                        "description": "OK - get successfully"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
         "/api/retrieve/post": {
             "get": {
                 "security": [
@@ -1591,7 +1618,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "WISMED V-HUB API",
-	Description:      "This is WISMED V-HUB backend-api server. Updated@ 04-15-2023 12:41:23",
+	Description:      "This is WISMED V-HUB backend-api server. Updated@ 04-16-2023 18:43:04",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

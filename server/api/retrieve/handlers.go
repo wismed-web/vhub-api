@@ -8,6 +8,7 @@ import (
 	em "github.com/digisan/event-mgr"
 	. "github.com/digisan/go-generics/v2"
 	lk "github.com/digisan/logkit"
+	u "github.com/digisan/user-mgr/user"
 	"github.com/labstack/echo/v4"
 	. "github.com/wismed-web/vhub-api/server/api/definition"
 )
@@ -37,7 +38,7 @@ func BatchID(c echo.Context) error {
 	}
 	switch by {
 	case "time", "tm":
-		ids, err := em.FetchEvtIDsByTm(value + "m")
+		ids, err := em.FetchEvtIDByTm(value + "m")
 		if err != nil {
 			return c.String(http.StatusInternalServerError, err.Error())
 		}
@@ -62,7 +63,7 @@ func BatchID(c echo.Context) error {
 	}
 }
 
-// @Title get all Post id group
+// @Title   get all Post id
 // @Summary get all Post id group.
 // @Description
 // @Tags    Retrieve
@@ -73,12 +74,40 @@ func BatchID(c echo.Context) error {
 // @Router /api/retrieve/all-id [get]
 // @Security ApiKeyAuth
 func AllID(c echo.Context) error {
-	ids, err := em.FetchEvtIDs(nil)
+	ids, err := em.FetchEvtID(nil)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, err.Error())
 	}
 	// lk.Log("IdAll ---> %d : %v", len(ids), ids)
 	return c.JSON(http.StatusOK, ids)
+}
+
+// @Title   get all Span
+// @Summary get all Span group.
+// @Description
+// @Tags    Retrieve
+// @Accept  json
+// @Produce json
+// @Success 200 "OK - get successfully"
+// @Failure 500 "Fail - internal error"
+// @Router /api/retrieve/debug/all-span [get]
+// @Security ApiKeyAuth
+func AllSpan(c echo.Context) error {
+
+	invoker, err := u.ToActiveFullUser(c)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
+	if NotIn(invoker.SysRole, "system") {
+		return c.String(http.StatusMethodNotAllowed, "only system level users can do Debug AllSpan")
+	}
+
+	spans, err := em.FetchSpan(nil)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
+	// lk.Log("All Spans ---> %d : %v", len(spans), spans)
+	return c.JSON(http.StatusOK, spans)
 }
 
 // @Title get one Post content

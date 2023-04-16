@@ -2,7 +2,7 @@ host: api.V-HUB.net
 info:
   contact:
     name: API Support
-  description: This is WISMED V-HUB backend-api server. Updated@ 04-15-2023 12:41:23
+  description: This is WISMED V-HUB backend-api server. Updated@ 04-16-2023 18:43:04
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -690,6 +690,22 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: get a batch of Post id group.
+      tags:
+      - Retrieve
+  /api/retrieve/debug/all-span:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - get successfully
+        "500":
+          description: Fail - internal error
+      security:
+      - ApiKeyAuth: []
+      summary: get all Span group.
       tags:
       - Retrieve
   /api/retrieve/post:
