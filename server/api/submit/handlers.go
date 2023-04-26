@@ -67,14 +67,17 @@ func Upload(c echo.Context) error {
 	}
 	lk.Log("Uploading ---> [%s] --- %v", uname, P)
 
+	// validating...
+	if len(P.Topic) == 0 {
+		return c.String(http.StatusBadRequest, "Post Title CANNOT be Empty")
+	}
+	if len(P.ContentTEXT) == 0 {
+		return c.String(http.StatusBadRequest, "Post Content CANNOT be Empty")
+	}
+
 	// set P Type
 	//
-	switch {
-	case len(flwee) > 0:
-		P.Type = "comment"
-	default:
-		P.Type = "post"
-	}
+	P.Type = IF(len(flwee) == 0, "P", "C") // P: Post; C: Comment
 
 	// save P as JSON for event
 	//

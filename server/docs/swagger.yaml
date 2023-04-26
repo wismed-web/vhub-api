@@ -2,7 +2,7 @@ host: api.V-HUB.net
 info:
   contact:
     name: API Support
-  description: This is WISMED V-HUB backend-api server. Updated@ 04-16-2023 18:43:04
+  description: This is WISMED V-HUB backend-api server. Updated@ 04-26-2023 14:28:28
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
