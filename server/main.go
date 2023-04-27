@@ -36,7 +36,7 @@ func init() {
 
 // @title WISMED V-HUB API
 // @version 1.0
-// @description This is WISMED V-HUB backend-api server. Updated@ 04-26-2023 14:28:28
+// @description This is WISMED V-HUB backend-api server. Updated@ 04-27-2023 18:14:07
 // @termsOfService
 // @contact.name API Support
 // @contact.url
@@ -122,6 +122,9 @@ func echoHost(done chan<- string) {
 
 		// host static file, such as agreement.pdf etc.
 		e.File("/agreement", "static/test.pdf")
+
+		// host static directory for user uploaded stuff.
+		e.Static("/assets", "data/user-space/")
 
 		// groups WITHOUT middleware
 		{

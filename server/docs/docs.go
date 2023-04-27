@@ -1128,6 +1128,30 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/retrieve/debug/cached-id": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Retrieve"
+                ],
+                "summary": "get cached Post id group.",
+                "responses": {
+                    "200": {
+                        "description": "OK - get successfully"
+                    }
+                }
+            }
+        },
         "/api/retrieve/post": {
             "get": {
                 "security": [
@@ -1618,7 +1642,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "WISMED V-HUB API",
-	Description:      "This is WISMED V-HUB backend-api server. Updated@ 04-26-2023 14:28:28",
+	Description:      "This is WISMED V-HUB backend-api server. Updated@ 04-27-2023 18:14:07",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

@@ -156,13 +156,13 @@ func UploadFormFile(c echo.Context) error {
 		return c.String(http.StatusInternalServerError, err.Error())
 	}
 
-	// * root    path   	 	 "data/user-space/"
-	// * storage path   	 	 "data/user-space/cdutwhu/2022-05/g0/g1/g2/document/github key.1652858188.txt"
-	// * this    return 	 	 "2022-05/g0/g1/g2/document/github key.1652858188.txt"
-	// * future  access url need "[ip:port]/[uname]/2022-05/g0/g1/g2/document/github key.1652858188.txt"
+	// * root    path   	"data/user-space/"
+	// * storage path   	"data/user-space/cdutwhu/2022-05/g0/g1/g2/document/github key.1652858188.txt"
+	// * this    return 	"2022-05/g0/g1/g2/document/github key.1652858188.txt"
+	// * future  access url "[ip:port]/[uname]/2022-05/g0/g1/g2/document/github key.1652858188.txt" // refer to 'e.Static' in main.go
 
 	parts := strings.Split(path, "/")
-	path = strings.Join(parts[3:], "/")
+	path = fmt.Sprintf("assets/%s/", uname) + strings.Join(parts[3:], "/") // refer to 'e.Static' in main.go
 	return c.JSON(http.StatusOK, path)
 }
 

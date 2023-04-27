@@ -11,10 +11,11 @@ import (
 func RetrieveHandler(e *echo.Group) {
 
 	var mGET = map[string]echo.HandlerFunc{
-		"/batch-id":       retrieve.BatchID,
-		"/all-id":         retrieve.AllID,
-		"/debug/all-span": retrieve.AllSpan,
-		"/post":           retrieve.OnePost,
+		"/batch-id":        retrieve.BatchID,
+		"/all-id":          retrieve.AllID,
+		"/debug/all-span":  retrieve.AllSpan,
+		"/debug/cached-id": retrieve.CacheID,
+		"/post":            retrieve.OnePost,
 	}
 	var mPOST = map[string]echo.HandlerFunc{}
 	var mPUT = map[string]echo.HandlerFunc{}

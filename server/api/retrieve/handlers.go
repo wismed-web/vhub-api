@@ -82,6 +82,19 @@ func AllID(c echo.Context) error {
 	return c.JSON(http.StatusOK, ids)
 }
 
+// @Title   get cached Post id
+// @Summary get cached Post id group.
+// @Description
+// @Tags    Retrieve
+// @Accept  json
+// @Produce json
+// @Success 200 "OK - get successfully"
+// @Router /api/retrieve/debug/cached-id [get]
+// @Security ApiKeyAuth
+func CacheID(c echo.Context) error {
+	return c.JSON(http.StatusOK, em.CurrentID())
+}
+
 // @Title   get all Span
 // @Summary get all Span group.
 // @Description

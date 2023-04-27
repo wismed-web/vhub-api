@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is WISMED V-HUB backend-api server. Updated@ 04-26-2023 14:28:28",
+        "description": "This is WISMED V-HUB backend-api server. Updated@ 04-27-2023 18:14:07",
         "title": "WISMED V-HUB API",
         "contact": {
             "name": "API Support"
@@ -1116,6 +1116,30 @@
                     },
                     "500": {
                         "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
+        "/api/retrieve/debug/cached-id": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Retrieve"
+                ],
+                "summary": "get cached Post id group.",
+                "responses": {
+                    "200": {
+                        "description": "OK - get successfully"
                     }
                 }
             }
