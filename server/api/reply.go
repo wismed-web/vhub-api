@@ -2,16 +2,16 @@ package api
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/wismed-web/vhub-api/server/api/follow"
+	"github.com/wismed-web/vhub-api/server/api/reply"
 )
 
 // register to main echo Group
 
-// "/api/follow"
-func FollowHandler(e *echo.Group) {
+// "/api/reply"
+func ReplyHandler(e *echo.Group) {
 
 	var mGET = map[string]echo.HandlerFunc{
-		"/follower": follow.Followers,
+		"/:pid": reply.Replies,
 	}
 	var mPOST = map[string]echo.HandlerFunc{}
 	var mPUT = map[string]echo.HandlerFunc{}

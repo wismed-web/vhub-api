@@ -104,8 +104,8 @@ func RemoveUser(c echo.Context) error {
 	if err != nil {
 		return c.String(http.StatusInternalServerError, err.Error())
 	}
-	if admin.SysRole != "admin" {
-		return c.String(http.StatusUnauthorized, fmt.Sprintf("only admin can do removing action"))
+	if NotIn(admin.SysRole, "admin", "system") {
+		return c.String(http.StatusUnauthorized, fmt.Sprintf("only [admin] or [system] can do removing action"))
 	}
 
 	//////////////////////////////////////////////

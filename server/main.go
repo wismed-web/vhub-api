@@ -36,7 +36,7 @@ func init() {
 
 // @title WISMED V-HUB API
 // @version 1.0
-// @description This is WISMED V-HUB backend-api server. Updated@ 04-27-2023 18:14:07
+// @description This is WISMED V-HUB backend-api server. Updated@ 04-28-2023 16:11:25
 // @termsOfService
 // @contact.name API Support
 // @contact.url
@@ -142,7 +142,7 @@ func echoHost(done chan<- string) {
 			"/api/retrieve",
 			"/api/manage",
 			"/api/bookmark",
-			"/api/follow",
+			"/api/reply",
 			"/api/interact",
 		}
 		handlers := []func(*echo.Group){
@@ -153,7 +153,7 @@ func echoHost(done chan<- string) {
 			api.RetrieveHandler,
 			api.ManageHandler,
 			api.BookmarkHandler,
-			api.FollowHandler,
+			api.ReplyHandler,
 			api.InteractHandler,
 		}
 		for i, group := range groups {

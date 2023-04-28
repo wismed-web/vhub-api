@@ -305,6 +305,45 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/admin/user/remove/{uname}": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "remove an user by its uname",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "uname of the user to be removed",
+                        "name": "uname",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - remove successfully"
+                    },
+                    "401": {
+                        "description": "Fail - unauthorized error"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
         "/api/admin/user/update/{fields}": {
             "put": {
                 "security": [
@@ -696,42 +735,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/follow/follower": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Follow"
-                ],
-                "summary": "get a specified Post follower-Post id group.",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "followee Post ID",
-                        "name": "followee",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK - get successfully"
-                    },
-                    "500": {
-                        "description": "Fail - internal error"
-                    }
-                }
-            }
-        },
         "/api/interact/{action}/record/{id}": {
             "patch": {
                 "security": [
@@ -1018,6 +1021,42 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Fail - incorrect query param type"
+                    },
+                    "500": {
+                        "description": "Fail - internal error"
+                    }
+                }
+            }
+        },
+        "/api/reply/{pid}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Reply"
+                ],
+                "summary": "get specified Post Reply id group.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Post ID",
+                        "name": "pid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - get successfully"
                     },
                     "500": {
                         "description": "Fail - internal error"
@@ -1642,7 +1681,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "WISMED V-HUB API",
-	Description:      "This is WISMED V-HUB backend-api server. Updated@ 04-27-2023 18:14:07",
+	Description:      "This is WISMED V-HUB backend-api server. Updated@ 04-28-2023 16:11:25",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

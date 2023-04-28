@@ -2,7 +2,7 @@ host: api.V-HUB.net
 info:
   contact:
     name: API Support
-  description: This is WISMED V-HUB backend-api server. Updated@ 04-27-2023 18:14:07
+  description: This is WISMED V-HUB backend-api server. Updated@ 04-28-2023 16:11:25
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -186,6 +186,30 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: get all online users
+      tags:
+      - Admin
+  /api/admin/user/remove/{uname}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: uname of the user to be removed
+        in: path
+        name: uname
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - remove successfully
+        "401":
+          description: Fail - unauthorized error
+        "500":
+          description: Fail - internal error
+      security:
+      - ApiKeyAuth: []
+      summary: remove an user by its uname
       tags:
       - Admin
   /api/admin/user/update/{fields}:
@@ -437,28 +461,6 @@ paths:
       summary: upload file action via form file input.
       tags:
       - File
-  /api/follow/follower:
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: followee Post ID
-        in: query
-        name: followee
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK - get successfully
-        "500":
-          description: Fail - internal error
-      security:
-      - ApiKeyAuth: []
-      summary: get a specified Post follower-Post id group.
-      tags:
-      - Follow
   /api/interact/{action}/record/{id}:
     patch:
       consumes:
@@ -645,6 +647,28 @@ paths:
       summary: get own Post id group in one specific time period.
       tags:
       - Manage
+  /api/reply/{pid}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Post ID
+        in: path
+        name: pid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - get successfully
+        "500":
+          description: Fail - internal error
+      security:
+      - ApiKeyAuth: []
+      summary: get specified Post Reply id group.
+      tags:
+      - Reply
   /api/retrieve/all-id:
     get:
       consumes:
