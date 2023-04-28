@@ -27,7 +27,10 @@ func AdminHandler(r *echo.Group) {
 		"/user/update/:fields": ad.UpdateUser,
 	}
 
-	var mDELETE = map[string]echo.HandlerFunc{}
+	var mDELETE = map[string]echo.HandlerFunc{
+		"/user/remove/:uname": ad.RemoveUser,
+	}
+
 	var mPATCH = map[string]echo.HandlerFunc{}
 
 	// ------------------------------------------------------- //

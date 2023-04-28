@@ -84,6 +84,41 @@ func SendEmail(c echo.Context) error {
 	return c.JSON(http.StatusOK, ret)
 }
 
+// @Title   remove user
+// @Summary remove an user by its uname
+// @Description
+// @Tags    Admin
+// @Accept  json
+// @Produce json
+// @Param   uname path string true "uname of the user to be removed"
+// @Success 200 "OK - remove successfully"
+// @Failure 401 "Fail - unauthorized error"
+// @Failure 500 "Fail - internal error"
+// @Router /api/admin/user/remove/{uname} [delete]
+// @Security ApiKeyAuth
+func RemoveUser(c echo.Context) error {
+
+	lk.Log("Enter: RemoveUser")
+
+	admin, err := u.ToActiveFullUser(c)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
+	if admin.SysRole != "admin" {
+		return c.String(http.StatusUnauthorized, fmt.Sprintf("only admin can do removing action"))
+	}
+
+	//////////////////////////////////////////////
+
+	var (
+		uname = c.Param("uname")
+	)
+	if err := u.RemoveUser(uname, true); err != nil {
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
+	return c.JSON(http.StatusOK, fmt.Sprintf("%s is removed successfully", uname))
+}
+
 // @Title   list users' info
 // @Summary list users' info
 // @Description
