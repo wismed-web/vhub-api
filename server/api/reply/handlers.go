@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	em "github.com/digisan/event-mgr"
+	. "github.com/digisan/go-generics/v2"
 	"github.com/labstack/echo/v4"
 )
 
@@ -26,5 +27,5 @@ func Replies(c echo.Context) error {
 	if err != nil {
 		return c.String(http.StatusInternalServerError, err.Error())
 	}
-	return c.JSON(http.StatusOK, replies)
+	return c.JSON(http.StatusOK, Reverse(replies))
 }

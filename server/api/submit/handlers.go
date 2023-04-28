@@ -27,7 +27,7 @@ import (
 func Template(c echo.Context) error {
 	return c.JSON(http.StatusOK, Post{
 		Topic:       "Post Topic",
-		Type:        "Post or Comment",
+		Type:        "Post or Reply",
 		Category:    "Category for this Post. If multiple, Separated by Semicolon",
 		Keywords:    "Keywords for this Post. If multiple, Separated by Semicolon",
 		ContentHTML: "Post Content, including format feature",
@@ -78,7 +78,7 @@ func Upload(c echo.Context) error {
 
 	// set P Type
 	//
-	P.Type = IF(len(flwee) == 0, "P", "C") // P: Post; C: Comment
+	P.Type = IF(len(flwee) == 0, "P", "R") // P: Post; R: Reply
 
 	// save P as JSON for event
 	//
