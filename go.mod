@@ -51,7 +51,7 @@ require (
 	github.com/jtguibas/cinema v0.0.0-20200208054232-ca271f28a020 // indirect
 	github.com/klauspost/compress v1.16.5 // indirect
 	github.com/labstack/gommon v0.4.0 // indirect
-	github.com/leodido/go-urn v1.2.3 // indirect
+	github.com/leodido/go-urn v1.2.4 // indirect
 	github.com/mailgun/mailgun-go/v4 v4.8.2 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
