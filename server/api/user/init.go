@@ -23,8 +23,8 @@ var (
 	prvKey []byte
 	PubKey []byte
 
-	// init-admin users
-	admins []string
+	admins     []string // initial admin users
+	maxAccount int      // limit of max account
 
 	// default avatar & avatar type
 	defaultAvatar     []byte
@@ -68,10 +68,11 @@ func init() {
 	monitorUserTokenExpired(ctx)
 
 	// load initial admin users
-	cfg.Init("init-admin", false, "./init-admin.json")
-	cfg.Use("init-admin")
+	cfg.Init("config", false, "./config.json")
+	cfg.Use("config")
 	cfg.Show()
 	admins = cfg.ValArr[string]("admin")
+	maxAccount = cfg.Val[int]("maxAccount")
 
 	// load default avatar from resource
 	defaultAvatar, err = os.ReadFile("./res/avatar.png")

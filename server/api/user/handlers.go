@@ -92,7 +92,18 @@ func NewUser(c echo.Context) error {
 
 	// su.SetValidator(map[string]func(string) bool{ })
 
-	lk.Log("%v", user)
+	// lk.Log("%v", user)
+
+	// some restriction for registration !
+	{
+		users, err := u.ListUser(func(u *u.User) bool { return true })
+		if err != nil {
+			return c.String(http.StatusInternalServerError, err.Error())
+		}
+		if len(users) > maxAccount {
+			return c.String(http.StatusForbidden, "sorry, sign-up is unavailable now (exceed user limitation), please contact V-HUB admin for help")
+		}
+	}
 
 	if err := su.ChkInput(user); err != nil {
 		return c.String(http.StatusBadRequest, err.Error())
