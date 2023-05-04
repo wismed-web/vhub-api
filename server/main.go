@@ -43,7 +43,7 @@ func init() {
 // @contact.email
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
-// @host api.V-HUB.net
+// @host api.v-hub.link
 // @BasePath
 // @securityDefinitions.apikey ApiKeyAuth
 // @in header
