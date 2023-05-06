@@ -1681,7 +1681,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "WISMED V-HUB API",
-	Description:      "This is WISMED V-HUB backend-api server. Updated@ 05-04-2023 16:49:24",
+	Description:      "This is WISMED V-HUB backend-api server. Updated@ 05-07-2023 00:53:26",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

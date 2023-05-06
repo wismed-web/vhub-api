@@ -68,10 +68,10 @@ cp -rf ./res $OUTPATH_LINUX
 
 #######################################################################################
 
-# if [[ $1 == 'release' || $1 == 'rel' ]]
-# then
-#     RELEASE_NAME=wisite-api\($TM\).tar.gz 
-#     cd ./build
-#     echo $RELEASE_NAME
-#     tar -czvf ./$RELEASE_NAME --exclude='./linux64/data' ./linux64
-# fi
+if [[ $1 == 'release' ]]
+then
+    RELEASE_NAME=vhub-api\($TM\).tar.gz 
+    cd ./build
+    echo $RELEASE_NAME
+    tar -czvf ./$RELEASE_NAME --exclude='./linux64/data' ./linux64
+fi

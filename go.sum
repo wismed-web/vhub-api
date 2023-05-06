@@ -29,8 +29,8 @@ github.com/dgraph-io/ristretto v0.1.1 h1:6CWw5tJNgpegArSHpNHJKldNeq03FQCwYvfMVWa
 github.com/dgraph-io/ristretto v0.1.1/go.mod h1:S1GPSBCYCIhmVNfcth17y2zZtQT6wzkzgwUve0VDWWA=
 github.com/dgryski/go-farm v0.0.0-20190423205320-6a90982ecee2 h1:tdlZCpZ/P9DhczCTSixgIKmwPv6+wP5DGjqLYw5SUiA=
 github.com/dgryski/go-farm v0.0.0-20190423205320-6a90982ecee2/go.mod h1:SqUrOPUnsFjfmXRMNPybcSiG0BgUW2AuFH8PAnS2iTw=
-github.com/digisan/db-helper v0.0.26 h1:H0ycJx5fE8eFMeSOymVoQ3TqL6b3YVVk6bdGHM9uGAo=
-github.com/digisan/db-helper v0.0.26/go.mod h1:eSzE6+EX4rqovpmsBn1FcJHw8Y9e9ha2bru6MWj7F5Y=
+github.com/digisan/db-helper v0.0.27 h1:u6KoOVVeJiRUgNSl6KBpGPQDA4fVGwEfWLnnpwg4JZ0=
+github.com/digisan/db-helper v0.0.27/go.mod h1:GNprdZmkMN42O4pmGLvAIqNCdTzMQKEcG8wQ3qLorcE=
 github.com/digisan/event-mgr v0.2.12 h1:x6EfwHLjfmoBiQWOxlDiynpcEzltU6IRGp+8Mq/bt+s=
 github.com/digisan/event-mgr v0.2.12/go.mod h1:EG6WoGtL5MsYS1+bqqZjtFJC47L3m+daPQ4U2nM9XT4=
 github.com/digisan/file-mgr v0.3.4 h1:1NdnH6yYOYYQcu9W/gtL9HkDw3DAqm/+YCScpgY1g70=
@@ -295,8 +295,8 @@ golang.org/x/sys v0.0.0-20211103235746-7861aae1554b/go.mod h1:oPkhp1MJrh7nUepCBc
 golang.org/x/sys v0.0.0-20220811171246-fbc7d0a398ab/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.0.0-20221010170243-090e33056c14/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.6.0/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
-golang.org/x/sys v0.7.0 h1:3jlCCIQZPdOYu1h8BkNvLz8Kgwtae2cagcG/VamtZRU=
-golang.org/x/sys v0.7.0/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
+golang.org/x/sys v0.8.0 h1:EBmGv8NaZBZTWvrbjNoL6HVt+IVy3QDQpJs7VRIw3tU=
+golang.org/x/sys v0.8.0/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/text v0.3.0/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
 golang.org/x/text v0.3.3/go.mod h1:5Zoc/QRtKVWzQhOtBMvqHzDpF6irO9z98xDceosuGiQ=
 golang.org/x/text v0.9.0 h1:2sjJmO8cDvYveuX97RDLsxlyUxLl+GHoLxBiRdHllBE=
